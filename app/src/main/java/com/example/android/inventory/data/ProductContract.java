@@ -5,6 +5,9 @@ import android.content.ContentResolver;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
+import static android.text.style.TtsSpan.GENDER_FEMALE;
+import static android.text.style.TtsSpan.GENDER_MALE;
+
 public class ProductContract {
 
     private ProductContract(){}
@@ -65,6 +68,13 @@ public class ProductContract {
         public static final String COLUMN_PRODUCT_NAME= "name";
 
         /**
+         * Price of the product.
+         *
+         * Type: INTEGER
+         */
+        public static final String COLUMN_PRODUCT_PRICE= "price";
+
+        /**
          * Quantity of the product.
          *
          * Type: INTEGER
@@ -77,5 +87,25 @@ public class ProductContract {
          * Type: BLOB
          */
         public static final String COLUMN_PRODUCT_IMAGE= "image";
+
+        /**
+         * Returns whether or not the given quantity is valid
+         */
+        public static boolean isValidPrice(int price) {
+            if (price >= 0) {
+                return true;
+            }
+            return false;
+        }
+
+        /**
+         * Returns whether or not the given quantity is valid
+         */
+        public static boolean isValidQuantity(int quantity) {
+            if (quantity >= 0) {
+                return true;
+            }
+            return false;
+        }
     }
 }

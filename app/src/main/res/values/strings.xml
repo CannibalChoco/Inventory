@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Inventory</string>
     <string name="action_settings">Settings</string>
+
+    <!-- Text inside the Sale Button -->
+    <string name="list_item_sale_button">Sale</string>
 </resources>
