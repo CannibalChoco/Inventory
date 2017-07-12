@@ -2,6 +2,52 @@
     <string name="app_name">Inventory</string>
     <string name="action_settings">Settings</string>
 
-    <!-- Text inside the Sale Button -->
+    <!-- Text inside the Sale Button in the CatalogActivity -->
     <string name="list_item_sale_button">Sale</string>
+
+    <!-- Label for price in CatalogActivity -->
+    <string name="list_item_price_label">Price: </string>
+    
+    <!-- Label for quantity in CatalogActivity -->
+    <string name="list_item_quantity_label">In stock: </string>
+    
+    <!-- Label for product name in Editor-->
+    <string name="name">Name</string>
+
+    <!-- Label for product price in Editor-->
+    <string name="price">Price</string>
+
+    <!-- Label for product quantity in Editor-->
+    <string name="quantity">Quantity</string>
+
+    <!-- Hint for product quantity in Editor-->
+    <string name="quantity_hint">4</string>
+
+    <!-- Label for edit quantity-by in Editor-->
+    <string name="edit_quantity_by">Edit By ...</string>
+
+    <!-- Label for product supplier email hint in Editor-->
+    <string name="supplier_email">Supplier email</string>
+
+    <!-- Hint for product supplier email in Editor-->
+    <string name="supplier_email_hint">supplier@supplier.com</string>
+
+    <!-- Label for Delete button in Editor-->
+    <string name="delete_product_entry">Delete product</string>
+
+    <!-- Label for Order button in Editor-->
+    <string name="order_product_from_supplier">Order more</string>
+
+    <!-- Decrement Button in Editor -->
+    <string name="decrement">-</string>
+
+    <!-- Increment Button in Editor -->
+    <string name="increment">+</string>
+
+    <!-- Menu options in Catalog -->
+    <string name="action_insert_dummy_data">Insert dummy data</string>
+
+    <!-- Menu options in Catalog -->
+    <string name="action_delete_all_entries">Delete all entries</string>
+
 </resources>

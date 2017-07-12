@@ -4,6 +4,7 @@ import android.app.LoaderManager;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.CursorLoader;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -50,7 +51,8 @@ public class CatalogActivity extends AppCompatActivity implements
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                insertDummyProduct();
+                Intent intent = new Intent(CatalogActivity.this, EditorActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -74,16 +76,17 @@ public class CatalogActivity extends AppCompatActivity implements
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        // User clicked on a menu option in the app bar overflow menu
+        switch (item.getItemId()) {
+            // Respond to a click on the "Insert dummy data" menu option
+            case R.id.action_insert_dummy_data:
+                insertDummyProduct();
+                return true;
+            // Respond to a click on the "Delete all entries" menu option
+            case R.id.action_delete_all_entries:
+                getContentResolver().delete(CONTENT_URI, null, null);
+                return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -91,9 +94,6 @@ public class CatalogActivity extends AppCompatActivity implements
      * Helper method to insert hardcoded product data into the database. For debugging purposes only.
      */
     private void insertDummyProduct() {
-        // Gets the database in write mode
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-
         ContentValues values = new ContentValues();
         values.put(COLUMN_PRODUCT_NAME, "socks");
         values.put(COLUMN_PRODUCT_PRICE, 345);
