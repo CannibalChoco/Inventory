@@ -36,10 +36,22 @@ public class EditorActivity extends AppCompatActivity {
     /** Content URI for the existing product (null if it's a new product) */
     private Uri currentProductUri;
 
+    /** Identifier for the product data loader */
+    private static final int PRODUCT_LOADER = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
+
+        currentProductUri = getIntent().getData();
+        if(currentProductUri == null){
+            setTitle(R.string.editor_activity_title_add_product);
+            invalidateOptionsMenu();
+        }else{
+            setTitle(R.string.editor_activity_title_edit_product);
+            //getLoaderManager().initLoader(PRODUCT_LOADER, null, this);
+        }
 
         nameEditText = (EditText) findViewById(R.id.edit_product_name);
         priceEditText = (EditText) findViewById(R.id.edit_product_price);
@@ -68,9 +80,11 @@ public class EditorActivity extends AppCompatActivity {
                 finish();
                 return true;
             case R.id.action_delete:
-
+                deleteProduct();
+                finish();
                 return true;
             case android.R.id.home:
+                finish();
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -109,6 +123,29 @@ public class EditorActivity extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();
             }else{
                 Toast.makeText(this, getString(R.string.message_product_saved),
+                        Toast.LENGTH_SHORT).show();
+            }
+        }else{
+            int productUpdated = getContentResolver().update(currentProductUri, values, null, null);
+
+            if(productUpdated == 0){
+                Toast.makeText(this, getString(R.string.message_product_update_failed),
+                        Toast.LENGTH_SHORT).show();
+            }else{
+                Toast.makeText(this, getString(R.string.message_product_updated),
+                        Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+    private void deleteProduct(){
+        if(currentProductUri != null){
+            int productDeleted = getContentResolver().delete(currentProductUri, null, null);
+            if(productDeleted == 1){
+                Toast.makeText(this, getString(R.string.message_product_deleted),
+                        Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, getString(R.string.message_product_delete_failed),
                         Toast.LENGTH_SHORT).show();
             }
         }

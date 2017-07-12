@@ -62,4 +62,22 @@
     <!-- Message shown when product was not saved successfully -->
     <string name="message_product_not_saved">Error occurred. Product was not saved</string>
 
+    <!-- Message shown when product is updates successfully -->
+    <string name="message_product_updated">Product updated</string>
+
+    <!-- Message shown when product is not saved -->
+    <string name="message_product_update_failed">Error occurred. Product update failed</string>
+
+    <!-- Message shown when product is deleted successfully -->
+    <string name="message_product_deleted">Product has been deleted</string>
+
+    <!-- Message shown when product is not deleted -->
+    <string name="message_product_delete_failed">Error occurred. Product was not deleted</string>
+
+    <!-- EditorActivity title to add a new product -->
+    <string name="editor_activity_title_add_product">Add Product</string>
+
+    <!-- EditorActivity title to edit a product -->
+    <string name="editor_activity_title_edit_product">Edit Product</string>
+
 </resources>

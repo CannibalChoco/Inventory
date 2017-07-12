@@ -78,6 +78,10 @@ public class CatalogActivity extends AppCompatActivity implements
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
                 Log.v(LOG_TAG, "TEST: launching EditorActivity...");
                 Intent intent = new Intent(CatalogActivity.this, EditorActivity.class);
+
+                Uri currentProductUri = ContentUris.withAppendedId(CONTENT_URI, id);
+                intent.setData(currentProductUri);
+
                 startActivity(intent);
             }
         });
