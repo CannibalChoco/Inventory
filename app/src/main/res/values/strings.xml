@@ -50,4 +50,10 @@
     <!-- Menu options in Catalog -->
     <string name="action_delete_all_entries">Delete all entries</string>
 
+    <!-- Label for editor menu option to save product and leave editor [CHAR LIMIT=20] -->
+    <string name="action_save">Save</string>
+
+    <!-- Label for editor overflow menu option that deletes the current product [CHAR LIMIT=20] -->
+    <string name="action_delete">Delete</string>
+
 </resources>
