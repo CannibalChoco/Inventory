@@ -77,9 +77,10 @@
 
             <!-- Decrement Button -->
             <Button
+                android:id="@+id/decrement_by_one"
                 android:layout_width="45dp"
                 android:layout_height="wrap_content"
-                android:text="@string/decrement"/>
+                android:text="@string/decrement" />
 
             <!-- Quantity field -->
             <EditText
@@ -88,16 +89,17 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_margin_small"
                 android:layout_marginRight="@dimen/activity_margin_small"
-                android:paddingRight="@dimen/activity_margin_small"
-                android:paddingLeft="@dimen/activity_margin_small"
                 android:hint="@string/quantity_hint"
-                android:inputType="number"/>
+                android:inputType="number"
+                android:paddingLeft="@dimen/activity_margin_small"
+                android:paddingRight="@dimen/activity_margin_small" />
 
             <!-- Increment Button -->
             <Button
+                android:id="@+id/increment_by_one"
                 android:layout_width="45dp"
                 android:layout_height="wrap_content"
-                android:text="@string/increment"/>
+                android:text="@string/increment" />
         </LinearLayout>
 
     </LinearLayout>
@@ -108,45 +110,37 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <!-- Label -->
-        <TextView
+        <View
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:gravity="right"
-            android:paddingRight="@dimen/activity_margin"
             android:layout_weight="1"
-            android:text="@string/edit_quantity_by" />
+            android:layout_height="0dp"/>
 
         <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2">
+            android:layout_weight="2"
+            android:layout_height="wrap_content">
 
-            <!-- Decrement Button -->
-            <Button
-                android:layout_width="45dp"
+            <!-- Label -->
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/decrement"/>
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="@dimen/activity_margin"
+                android:text="@string/edit_quantity_by" />
 
             <!-- Quantity field -->
             <EditText
                 android:id="@+id/edit_product_quantity_by"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/activity_margin_small"
                 android:layout_marginRight="@dimen/activity_margin_small"
-                android:paddingRight="@dimen/activity_margin_small"
-                android:paddingLeft="@dimen/activity_margin_small"
-                android:layout_height="wrap_content"
                 android:hint="@string/quantity_hint"
-                android:inputType="number"/>
-
-            <!-- Increment Button -->
-            <Button
-                android:layout_width="45dp"
-                android:layout_height="wrap_content"
-                android:text="@string/increment"/>
+                android:inputType="number"
+                android:paddingLeft="@dimen/activity_margin_small"
+                android:paddingRight="@dimen/activity_margin_small" />
         </LinearLayout>
+
 
     </LinearLayout>
 

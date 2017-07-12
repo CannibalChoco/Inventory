@@ -3,14 +3,20 @@ package com.example.android.inventory;
 import android.app.LoaderManager;
 import android.content.ContentValues;
 import android.content.CursorLoader;
+import android.content.DialogInterface;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -47,6 +53,21 @@ public class EditorActivity extends AppCompatActivity
     private EditText suppliersEmailEditText;
 
     /**
+     * Decrement product quantity by one
+     */
+    private Button decrementByOne;
+
+    /**
+     * Increment product quantity by one
+     */
+    private Button incrementByOne;
+
+    /**
+     * Update product quantity by x amount
+     */
+    private EditText updateByX;
+
+    /**
      * Content URI for the existing product (null if it's a new product)
      */
     private Uri currentProductUri;
@@ -55,6 +76,19 @@ public class EditorActivity extends AppCompatActivity
      * Identifier for the product data loader
      */
     private static final int PRODUCT_LOADER = 0;
+
+    /**
+     * Track whether the user has edited product info
+     */
+    private boolean productHasChanged = false;
+
+    private View.OnTouchListener touchListener = new View.OnTouchListener() {
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            productHasChanged = true;
+            return false;
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,11 +108,80 @@ public class EditorActivity extends AppCompatActivity
         priceEditText = (EditText) findViewById(R.id.edit_product_price);
         quantityEditText = (EditText) findViewById(R.id.edit_product_quantity);
         suppliersEmailEditText = (EditText) findViewById(R.id.edit_product_supplier);
+
+        nameEditText.setOnTouchListener(touchListener);
+        priceEditText.setOnTouchListener(touchListener);
+        quantityEditText.setOnTouchListener(touchListener);
+        suppliersEmailEditText.setOnTouchListener(touchListener);
+
+        decrementByOne = (Button) findViewById(R.id.decrement_by_one);
+        decrementByOne.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String quantityString = quantityEditText.getText().toString().trim();
+                int quantity = Integer.parseInt(quantityString);
+                if(quantity > 0){
+                    quantity--;
+                }
+                quantityEditText.setText(String.valueOf(quantity));
+            }
+        });
+
+        incrementByOne = (Button) findViewById(R.id.increment_by_one);
+        incrementByOne.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String quantityString = quantityEditText.getText().toString().trim();
+                int quantity = Integer.parseInt(quantityString);
+                quantity++;
+                quantityEditText.setText(String.valueOf(quantity));
+            }
+        });
+
+        updateByX = (EditText) findViewById(R.id.edit_product_quantity_by);
+        updateByX.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String quantityString = quantityEditText.getText().toString().trim();
+                int quantity = Integer.parseInt(quantityString);
+
+                // TODO: update quantity
+
+                quantityEditText.setText(String.valueOf(quantity));
+            }
+        });
     }
+
+    // TODO: Set up spinner
 
     @Override
     public void onBackPressed() {
-        finish();
+        if(!productHasChanged){
+            super.onBackPressed();
+        }
+
+        DialogInterface.OnClickListener discardButtonClickListener =
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        // User clicked "Discard" button, close the current activity.
+                        finish();
+                    }
+                };
+
+        // Show dialog that there are unsaved changes
+        showUnsavedChangesDialog(discardButtonClickListener);
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        // If this is a new pet, hide the "Delete" menu item.
+        if (currentProductUri == null) {
+            MenuItem menuItem = menu.findItem(R.id.action_delete);
+            menuItem.setVisible(false);
+        }
+        return true;
     }
 
     @Override
@@ -97,11 +200,25 @@ public class EditorActivity extends AppCompatActivity
                 finish();
                 return true;
             case R.id.action_delete:
-                deleteProduct();
-                finish();
+                showDeleteConfirmationDialog();
                 return true;
             case android.R.id.home:
-                finish();
+                if (!productHasChanged) {
+                    NavUtils.navigateUpFromSameTask(EditorActivity.this);
+                    return true;
+                }
+
+                DialogInterface.OnClickListener discardButtonClickListener =
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                // User clicked "Discard" button, navigate to parent activity.
+                                NavUtils.navigateUpFromSameTask(EditorActivity.this);
+                            }
+                        };
+
+                // Show a dialog that notifies the user they have unsaved changes
+                showUnsavedChangesDialog(discardButtonClickListener);
                 return true;
         }
         return super.onOptionsItemSelected(item);
@@ -211,5 +328,54 @@ public class EditorActivity extends AppCompatActivity
         priceEditText.setText("");
         quantityEditText.setText("0");
         suppliersEmailEditText.setText("");
+    }
+
+    private void showUnsavedChangesDialog(
+            DialogInterface.OnClickListener discardButtonClickListener) {
+        // Create an AlertDialog.Builder and set the message, and click listeners
+        // for the positive and negative buttons on the dialog.
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.unsaved_changes_dialog_msg);
+        builder.setPositiveButton(R.string.discard, discardButtonClickListener);
+        builder.setNegativeButton(R.string.keep_editing, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked the "Keep editing" button, so dismiss the dialog
+                // and continue editing the pet.
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        // Create and show the AlertDialog
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    private void showDeleteConfirmationDialog() {
+        // Create an AlertDialog.Builder and set the message, and click listeners
+        // for the positive and negative buttons on the dialog.
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.delete_dialog_msg);
+        builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked the "Delete" button, so delete the pet.
+                deleteProduct();
+                finish();
+            }
+        });
+        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int id) {
+                // User clicked the "Cancel" button, so dismiss the dialog
+                // and continue editing the pet.
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        // Create and show the AlertDialog
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 }
