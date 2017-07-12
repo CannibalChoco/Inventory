@@ -1,11 +1,13 @@
 package com.example.android.inventory;
 
 import android.app.LoaderManager;
+import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -92,22 +94,13 @@ public class CatalogActivity extends AppCompatActivity implements
         // Gets the database in write mode
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-        // Create a ContentValues object where column names are the keys,
-        // and Toto's pet attributes are the values.
         ContentValues values = new ContentValues();
         values.put(COLUMN_PRODUCT_NAME, "socks");
         values.put(COLUMN_PRODUCT_PRICE, 345);
         values.put(COLUMN_PRODUCT_QUANTITY, 6);
 
-        // Insert a new row for Toto in the database, returning the ID of that new row.
-        // The first argument for db.insert() is the pets table name.
-        // The second argument provides the name of a column in which the framework
-        // can insert NULL in the event that the ContentValues is empty (if
-        // this is set to "null", then the framework will not insert a row when
-        // there are no values).
-        // The third argument is the ContentValues object containing the info for Toto.
-        long newRowId = db.insert(TABLE_NAME, null, values);
-        Toast.makeText(this, "Item added with row id " + newRowId, Toast.LENGTH_SHORT).show();
+        Uri uri = getContentResolver().insert(CONTENT_URI, values);
+        //Toast.makeText(this, "" + String.valueOf(uri), Toast.LENGTH_SHORT).show();
     }
 
 

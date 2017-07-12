@@ -11,10 +11,15 @@ import android.util.Log;
 
 import com.example.android.inventory.data.ProductContract.ProductEntry;
 
+import static com.example.android.inventory.data.ProductContract.CONTENT_AUTHORITY;
+import static com.example.android.inventory.data.ProductContract.PATH_PRODUCTS;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_NAME;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_PRICE;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_QUANTITY;
+import static com.example.android.inventory.data.ProductContract.ProductEntry.CONTENT_ITEM_TYPE;
+import static com.example.android.inventory.data.ProductContract.ProductEntry.CONTENT_LIST_TYPE;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.TABLE_NAME;
+import static com.example.android.inventory.data.ProductContract.ProductEntry._ID;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.isValidPrice;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.isValidQuantity;
 
@@ -47,8 +52,8 @@ public class ProductProvider extends ContentProvider {
      * Static initializer. This is run the first time anything is called from this class.
      */
     static {
-        sUriMatcher.addURI(ProductContract.CONTENT_AUTHORITY, ProductContract.PATH_PRODUCTS, PRODUCTS);
-        sUriMatcher.addURI(ProductContract.CONTENT_AUTHORITY, ProductContract.PATH_PRODUCTS + "/#", PRODUCT_ID);
+        sUriMatcher.addURI(CONTENT_AUTHORITY, PATH_PRODUCTS, PRODUCTS);
+        sUriMatcher.addURI(CONTENT_AUTHORITY, PATH_PRODUCTS + "/#", PRODUCT_ID);
     }
 
     @Override
@@ -59,7 +64,8 @@ public class ProductProvider extends ContentProvider {
     }
 
     @Override
-    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
+    public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs,
+                        String sortOrder) {
         // Get readable database
         SQLiteDatabase database = dbHelper.getReadableDatabase();
 
@@ -72,7 +78,7 @@ public class ProductProvider extends ContentProvider {
                         null, null, sortOrder);
                 break;
             case PRODUCT_ID:
-                selection = ProductEntry._ID + "=?";
+                selection = _ID + "=?";
                 selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
 
                 cursor = database.query(TABLE_NAME, projection, selection, selectionArgs,
@@ -95,7 +101,15 @@ public class ProductProvider extends ContentProvider {
 
     @Override
     public String getType(Uri uri) {
-        return null;
+        final int match = sUriMatcher.match(uri);
+        switch (match) {
+            case PRODUCTS:
+                return CONTENT_LIST_TYPE;
+            case PRODUCT_ID:
+                return CONTENT_ITEM_TYPE;
+            default:
+                throw new IllegalStateException("Unknown URI " + uri + " with match " + match);
+        }
     }
 
 
@@ -124,7 +138,7 @@ public class ProductProvider extends ContentProvider {
                 break;
             case PRODUCT_ID:
                 // Delete a single row given by the ID in the URI
-                selection = ProductEntry._ID + "=?";
+                selection = _ID + "=?";
                 selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
                 rowsDeleted = database.delete(TABLE_NAME, selection, selectionArgs);
                 break;
@@ -149,7 +163,7 @@ public class ProductProvider extends ContentProvider {
                 // For the PET_ID code, extract out the ID from the URI,
                 // so we know which row to update. Selection will be "_id=?" and selection
                 // arguments will be a String array containing the actual ID.
-                selection = ProductEntry._ID + "=?";
+                selection = _ID + "=?";
                 selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
                 return updateProduct(uri, values, selection, selectionArgs);
             default:
@@ -169,14 +183,14 @@ public class ProductProvider extends ContentProvider {
 
         // Checks that the price is not null or invalid
         Integer price = values.getAsInteger(COLUMN_PRODUCT_PRICE);
-        if (price != null || !isValidPrice(price)) {
-            throw new IllegalArgumentException("Pet requires a weight");
+        if (price == null || !isValidPrice(price)) {
+            throw new IllegalArgumentException("Product requires a valid price");
         }
 
         // Check that the quantity is not null or invalid
         Integer quantity = values.getAsInteger(COLUMN_PRODUCT_QUANTITY);
         if (quantity == null || !isValidQuantity(quantity)) {
-            throw new IllegalArgumentException("Pet requires a valid quantoty");
+            throw new IllegalArgumentException("Pet requires a valid quantity");
         }
 
         SQLiteDatabase db = dbHelper.getWritableDatabase();
