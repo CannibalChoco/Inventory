@@ -1,6 +1,10 @@
 package com.example.android.inventory;
 
+import android.app.LoaderManager;
 import android.content.ContentValues;
+import android.content.CursorLoader;
+import android.content.Loader;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,33 +14,46 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.android.inventory.data.ProductContract;
 
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_NAME;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_PRICE;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_QUANTITY;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_SUPPLIER_EMAIL;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.CONTENT_URI;
+import static com.example.android.inventory.data.ProductContract.ProductEntry._ID;
 
 
-public class EditorActivity extends AppCompatActivity {
+public class EditorActivity extends AppCompatActivity
+        implements LoaderManager.LoaderCallbacks<Cursor> {
 
-    /** EditText field to enter the products name */
+    /**
+     * EditText field to enter the products name
+     */
     private EditText nameEditText;
 
-    /** EditText field to enter the products price */
+    /**
+     * EditText field to enter the products price
+     */
     private EditText priceEditText;
 
-    /** EditText field to enter the products quantity */
+    /**
+     * EditText field to enter the products quantity
+     */
     private EditText quantityEditText;
 
-    /** EditText field to enter the suppliers email */
+    /**
+     * EditText field to enter the suppliers email
+     */
     private EditText suppliersEmailEditText;
 
-    /** Content URI for the existing product (null if it's a new product) */
+    /**
+     * Content URI for the existing product (null if it's a new product)
+     */
     private Uri currentProductUri;
 
-    /** Identifier for the product data loader */
+    /**
+     * Identifier for the product data loader
+     */
     private static final int PRODUCT_LOADER = 0;
 
     @Override
@@ -45,12 +62,12 @@ public class EditorActivity extends AppCompatActivity {
         setContentView(R.layout.activity_editor);
 
         currentProductUri = getIntent().getData();
-        if(currentProductUri == null){
+        if (currentProductUri == null) {
             setTitle(R.string.editor_activity_title_add_product);
             invalidateOptionsMenu();
-        }else{
+        } else {
             setTitle(R.string.editor_activity_title_edit_product);
-            //getLoaderManager().initLoader(PRODUCT_LOADER, null, this);
+            getLoaderManager().initLoader(PRODUCT_LOADER, null, this);
         }
 
         nameEditText = (EditText) findViewById(R.id.edit_product_name);
@@ -60,7 +77,7 @@ public class EditorActivity extends AppCompatActivity {
     }
 
     @Override
-    public  void onBackPressed(){
+    public void onBackPressed() {
         finish();
     }
 
@@ -90,22 +107,22 @@ public class EditorActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void saveProduct (){
+    private void saveProduct() {
         String nameString = nameEditText.getText().toString().trim();
         String priceString = priceEditText.getText().toString().trim();
         int price = Integer.parseInt(priceString.replace(".", ""));
         String quantityString = quantityEditText.getText().toString().trim();
         String supplierEmailString = suppliersEmailEditText.getText().toString().trim();
 
-        if(currentProductUri == null && TextUtils.isEmpty(nameString) &&
+        if (currentProductUri == null && TextUtils.isEmpty(nameString) &&
                 TextUtils.isEmpty(priceString) && TextUtils.isEmpty(quantityString) &&
-                TextUtils.isEmpty(supplierEmailString)){
+                TextUtils.isEmpty(supplierEmailString)) {
             finish();
             return;
         }
 
         int quantity = 0;
-        if(!TextUtils.isEmpty(quantityString)){
+        if (!TextUtils.isEmpty(quantityString)) {
             quantity = Integer.parseInt(quantityString);
         }
 
@@ -115,33 +132,33 @@ public class EditorActivity extends AppCompatActivity {
         values.put(COLUMN_PRODUCT_QUANTITY, quantity);
         values.put(COLUMN_PRODUCT_SUPPLIER_EMAIL, supplierEmailString);
 
-        if(currentProductUri == null){
+        if (currentProductUri == null) {
             Uri uri = getContentResolver().insert(CONTENT_URI, values);
 
-            if(uri == null){
+            if (uri == null) {
                 Toast.makeText(this, getString(R.string.message_product_not_saved),
                         Toast.LENGTH_SHORT).show();
-            }else{
+            } else {
                 Toast.makeText(this, getString(R.string.message_product_saved),
                         Toast.LENGTH_SHORT).show();
             }
-        }else{
+        } else {
             int productUpdated = getContentResolver().update(currentProductUri, values, null, null);
 
-            if(productUpdated == 0){
+            if (productUpdated == 0) {
                 Toast.makeText(this, getString(R.string.message_product_update_failed),
                         Toast.LENGTH_SHORT).show();
-            }else{
+            } else {
                 Toast.makeText(this, getString(R.string.message_product_updated),
                         Toast.LENGTH_SHORT).show();
             }
         }
     }
 
-    private void deleteProduct(){
-        if(currentProductUri != null){
+    private void deleteProduct() {
+        if (currentProductUri != null) {
             int productDeleted = getContentResolver().delete(currentProductUri, null, null);
-            if(productDeleted == 1){
+            if (productDeleted == 1) {
                 Toast.makeText(this, getString(R.string.message_product_deleted),
                         Toast.LENGTH_SHORT).show();
             } else {
@@ -149,5 +166,50 @@ public class EditorActivity extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        String[] projection = {
+                _ID, // always needed for the cursor that's being passed to a cursor adapter
+                COLUMN_PRODUCT_NAME,
+                COLUMN_PRODUCT_PRICE,
+                COLUMN_PRODUCT_QUANTITY,
+                COLUMN_PRODUCT_SUPPLIER_EMAIL};
+
+        return new CursorLoader(this, currentProductUri, projection, null, null, null);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        // Bail early if the cursor is null or there is less than 1 row in the cursor
+        if (data == null || data.getCount() < 1) {
+            return;
+        }
+
+        if(data.moveToFirst()){
+            int nameColIndex = data.getColumnIndex(COLUMN_PRODUCT_NAME);
+            int priceColIndex = data.getColumnIndex(COLUMN_PRODUCT_PRICE);
+            int quantityColIndex = data.getColumnIndex(COLUMN_PRODUCT_QUANTITY);
+            int supplierEmailColIndex = data.getColumnIndex(COLUMN_PRODUCT_SUPPLIER_EMAIL);
+
+            String name = data.getString(nameColIndex);
+            double price = data.getInt(priceColIndex) / 100.00;
+            int quantity = data.getInt(quantityColIndex);
+            String supplierEmail = data.getString(supplierEmailColIndex);
+
+            nameEditText.setText(name);
+            priceEditText.setText(String.format("%.2f", price));
+            quantityEditText.setText(String.valueOf(quantity));
+            suppliersEmailEditText.setText(supplierEmail);
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        nameEditText.setText("");
+        priceEditText.setText("");
+        quantityEditText.setText("0");
+        suppliersEmailEditText.setText("");
     }
 }

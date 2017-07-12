@@ -42,16 +42,13 @@ public class ProductCursorAdapter extends CursorAdapter {
         int quantityColumnIndex = cursor.getColumnIndex(COLUMN_PRODUCT_QUANTITY);
 
         String name = cursor.getString(nameColumnIndex);
-        nameTextView.setText(name);
-
         double price = cursor.getInt(priceColumnIndex) / 100.00;
-        Log.i(LOG_TAG, "TEST: price int: " + cursor.getInt(priceColumnIndex));
-        Log.i(LOG_TAG, "TEST: price double: " + price);
+        int quantity = cursor.getInt(quantityColumnIndex);
 
         priceTextView.setText(String.format("%.2f", price));
-
-        int quantity = cursor.getInt(quantityColumnIndex);
+        nameTextView.setText(name);
         quantityTextView.setText(String.valueOf(quantity));
-
+        //Log.i(LOG_TAG, "TEST: price int: " + cursor.getInt(priceColumnIndex));
+        //Log.i(LOG_TAG, "TEST: price double: " + price);
     }
 }
