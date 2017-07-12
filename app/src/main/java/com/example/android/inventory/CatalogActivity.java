@@ -31,6 +31,7 @@ import static com.example.android.inventory.data.ProductContract.ProductEntry.CO
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_QUANTITY;
 
 import static com.example.android.inventory.R.id.fab;
+import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_SUPPLIER_EMAIL;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.CONTENT_URI;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.TABLE_NAME;
 import static com.example.android.inventory.data.ProductContract.ProductEntry._ID;
@@ -113,8 +114,9 @@ public class CatalogActivity extends AppCompatActivity implements
     private void insertDummyProduct() {
         ContentValues values = new ContentValues();
         values.put(COLUMN_PRODUCT_NAME, "socks");
-        values.put(COLUMN_PRODUCT_PRICE, 345);
-        values.put(COLUMN_PRODUCT_QUANTITY, 6);
+        values.put(COLUMN_PRODUCT_PRICE, 234);
+        values.put(COLUMN_PRODUCT_QUANTITY, 4);
+        values.put(COLUMN_PRODUCT_SUPPLIER_EMAIL, "supplier@emai.com");
 
         Uri uri = getContentResolver().insert(CONTENT_URI, values);
         //Toast.makeText(this, "" + String.valueOf(uri), Toast.LENGTH_SHORT).show();

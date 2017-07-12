@@ -3,6 +3,7 @@ package com.example.android.inventory;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v4.widget.CursorAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,8 @@ import static com.example.android.inventory.data.ProductContract.ProductEntry.CO
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_QUANTITY;
 
 public class ProductCursorAdapter extends CursorAdapter {
+
+    private String LOG_TAG = ProductCursorAdapter.class.getSimpleName();
 
     /**
      * The constructor
@@ -41,7 +44,10 @@ public class ProductCursorAdapter extends CursorAdapter {
         String name = cursor.getString(nameColumnIndex);
         nameTextView.setText(name);
 
-        double price = cursor.getInt(priceColumnIndex) / 100;
+        double price = cursor.getInt(priceColumnIndex) / 100.00;
+        Log.i(LOG_TAG, "TEST: price int: " + cursor.getInt(priceColumnIndex));
+        Log.i(LOG_TAG, "TEST: price double: " + price);
+
         priceTextView.setText(String.format("%.2f", price));
 
         int quantity = cursor.getInt(quantityColumnIndex);
