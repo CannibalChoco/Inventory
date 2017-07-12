@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import static com.example.android.inventory.R.id.quantity;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_NAME;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_PRICE;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_QUANTITY;
@@ -31,21 +32,20 @@ public class ProductCursorAdapter extends CursorAdapter {
     public void bindView(View view, Context context, Cursor cursor) {
         TextView nameTextView = (TextView) view.findViewById(R.id.name);
         TextView priceTextView = (TextView) view.findViewById(R.id.price);
-        TextView quantityTextView = (TextView) view.findViewById(R.id.quantity);
+        TextView quantityTextView = (TextView) view.findViewById(quantity);
 
-        int nameColIndex = cursor.getColumnIndex(COLUMN_PRODUCT_NAME);
-        int priceColIndex = cursor.getColumnIndex(COLUMN_PRODUCT_PRICE);
-        int quantityColIndex = cursor.getColumnIndex(COLUMN_PRODUCT_QUANTITY);
+        int nameColumnIndex = cursor.getColumnIndex(COLUMN_PRODUCT_NAME);
+        int priceColumnIndex = cursor.getColumnIndex(COLUMN_PRODUCT_PRICE);
+        int quantityColumnIndex = cursor.getColumnIndex(COLUMN_PRODUCT_QUANTITY);
 
-        String name = cursor.getString(nameColIndex);
-        int price = cursor.getInt(priceColIndex);
-        int quantity = cursor.getInt(quantityColIndex);
-
-        double priceWithDecimals = price / 100;
-
+        String name = cursor.getString(nameColumnIndex);
         nameTextView.setText(name);
-        priceTextView.setText(String.format("%.2f", priceWithDecimals));
-        quantityTextView.setText(quantity);
+
+        double price = cursor.getInt(priceColumnIndex) / 100;
+        priceTextView.setText(String.format("%.2f", price));
+
+        int quantity = cursor.getInt(quantityColumnIndex);
+        quantityTextView.setText(String.valueOf(quantity));
 
     }
 }
