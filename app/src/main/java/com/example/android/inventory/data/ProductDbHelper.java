@@ -5,6 +5,13 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import com.example.android.inventory.data.ProductContract.ProductEntry;
 
+import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_IMAGE;
+import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_NAME;
+import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_PRICE;
+import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_QUANTITY;
+import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_SUPPLIER_EMAIL;
+import static com.example.android.inventory.data.ProductContract.ProductEntry.TABLE_NAME;
+import static com.example.android.inventory.data.ProductContract.ProductEntry._ID;
 
 
 public class ProductDbHelper extends SQLiteOpenHelper {
@@ -28,12 +35,13 @@ public class ProductDbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         // Create a String that contains the SQL statement to create the pets table
-        String SQL_CREATE_PRODUCTS_TABLE = "CREATE TABLE " + ProductEntry.TABLE_NAME + " ("
-                + ProductEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + ProductEntry.COLUMN_PRODUCT_NAME + " TEXT NOT NULL, "
-                + ProductEntry.COLUMN_PRODUCT_PRICE + " INTEGER NOT NULL, "
-                + ProductEntry.COLUMN_PRODUCT_QUANTITY + " INTEGER NOT NULL DEFAULT 0, "
-                + ProductEntry.COLUMN_PRODUCT_IMAGE + " BLOB);";
+        String SQL_CREATE_PRODUCTS_TABLE = "CREATE TABLE " + TABLE_NAME + " ("
+                + _ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + COLUMN_PRODUCT_NAME + " TEXT NOT NULL, "
+                + COLUMN_PRODUCT_PRICE + " INTEGER NOT NULL, "
+                + COLUMN_PRODUCT_QUANTITY + " INTEGER NOT NULL DEFAULT 0, "
+                + COLUMN_PRODUCT_SUPPLIER_EMAIL + " TEXT NOT NULL, "
+                + COLUMN_PRODUCT_IMAGE + " BLOB);";
 
         db.execSQL(SQL_CREATE_PRODUCTS_TABLE);
     }

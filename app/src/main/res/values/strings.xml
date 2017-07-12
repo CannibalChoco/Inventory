@@ -56,4 +56,10 @@
     <!-- Label for editor overflow menu option that deletes the current product [CHAR LIMIT=20] -->
     <string name="action_delete">Delete</string>
 
+    <!-- Message shown when product is saved successfully -->
+    <string name="message_product_saved">Product was saved successfully</string>
+
+    <!-- Message shown when product was not saved successfully -->
+    <string name="message_product_not_saved">Error occurred. Product was not saved</string>
+
 </resources>

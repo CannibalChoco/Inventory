@@ -12,9 +12,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,6 +24,8 @@ import android.widget.Toast;
 import com.example.android.inventory.data.ProductContract.ProductEntry;
 
 import com.example.android.inventory.data.ProductDbHelper;
+
+import static android.webkit.ConsoleMessage.MessageLevel.LOG;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_NAME;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_PRICE;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_QUANTITY;
@@ -33,6 +37,9 @@ import static com.example.android.inventory.data.ProductContract.ProductEntry._I
 
 public class CatalogActivity extends AppCompatActivity implements
         LoaderManager.LoaderCallbacks<Cursor>{
+
+    /** Tag for the log messages */
+    public static final String LOG_TAG = CatalogActivity.class.getSimpleName();
 
     private ProductDbHelper dbHelper = new ProductDbHelper(this);
 
@@ -51,6 +58,7 @@ public class CatalogActivity extends AppCompatActivity implements
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.v(LOG_TAG, "TEST: launching EditorActivity...");
                 Intent intent = new Intent(CatalogActivity.this, EditorActivity.class);
                 startActivity(intent);
             }
@@ -63,6 +71,15 @@ public class CatalogActivity extends AppCompatActivity implements
 
         adapter = new ProductCursorAdapter(this, null);
         productListView.setAdapter(adapter);
+
+        productListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                Log.v(LOG_TAG, "TEST: launching EditorActivity...");
+                Intent intent = new Intent(CatalogActivity.this, EditorActivity.class);
+                startActivity(intent);
+            }
+        });
 
         getLoaderManager().initLoader(PRODUCT_DB_LOADER, null, this);
     }

@@ -10,7 +10,6 @@
         android:fontFamily="sans-serif-medium"
         android:gravity="left"
         android:text="suitcase"
-
         android:textAppearance="?android:textAppearanceMedium"
         android:textColor="@color/color_default_text" />
 
@@ -44,5 +43,6 @@
         android:fontFamily="sans-serif-medium"
         android:text="@string/list_item_sale_button"
         android:textAppearance="?android:textAppearanceMedium"
-        android:textColor="@color/color_default_text" />
+        android:textColor="@color/color_default_text"
+        android:focusable="false"/>
 </RelativeLayout>

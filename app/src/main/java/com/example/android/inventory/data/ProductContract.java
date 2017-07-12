@@ -82,6 +82,13 @@ public class ProductContract {
         public static final String COLUMN_PRODUCT_QUANTITY= "quantity";
 
         /**
+         * Image of the product.Product suppliers email
+         *
+         * Type: STRING
+         */
+        public static final String COLUMN_PRODUCT_SUPPLIER_EMAIL= "supplier";
+
+        /**
          * Image of the product.
          *
          * Type: BLOB
