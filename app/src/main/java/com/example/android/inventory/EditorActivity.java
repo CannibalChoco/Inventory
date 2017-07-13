@@ -6,6 +6,7 @@ import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Loader;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -17,10 +18,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
-
 
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_NAME;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_PRICE;
@@ -49,6 +52,16 @@ public class EditorActivity extends AppCompatActivity
     private EditText quantityEditText;
 
     /**
+     * Spinner to select either to subtract or add to products quantity
+     */
+    private Spinner editQuantitySpinner;
+
+    /**
+     * EditText field to enter amount by which to edit the quantity
+     */
+    private EditText editQuantityByEditText;
+
+    /**
      * EditText field to enter the suppliers email
      */
     private EditText suppliersEmailEditText;
@@ -67,6 +80,12 @@ public class EditorActivity extends AppCompatActivity
      * Update product quantity by x amount
      */
     private EditText updateByX;
+
+    /**
+     * Edit quantity variables to track users choice
+     */
+    private boolean decrementByX = false;
+    private boolean incrementByX = false;
 
     /**
      * Content URI for the existing product (null if it's a new product)
@@ -109,12 +128,18 @@ public class EditorActivity extends AppCompatActivity
         priceEditText = (EditText) findViewById(R.id.edit_product_price);
         priceEditText.setFilters(new InputFilter[] {new DecimalDigitsInputFilter(2)});
         quantityEditText = (EditText) findViewById(R.id.edit_product_quantity);
+        editQuantityByEditText = (EditText) findViewById(R.id.edit_product_quantity_by) ;
+        editQuantitySpinner = (Spinner) findViewById(R.id.spinner_edit_quantity);
         suppliersEmailEditText = (EditText) findViewById(R.id.edit_product_supplier);
 
         nameEditText.setOnTouchListener(touchListener);
         priceEditText.setOnTouchListener(touchListener);
         quantityEditText.setOnTouchListener(touchListener);
+        editQuantitySpinner.setOnTouchListener(touchListener);
+        editQuantityByEditText.setOnTouchListener(touchListener);
         suppliersEmailEditText.setOnTouchListener(touchListener);
+
+        setupSpinner();
 
         decrementByOne = (Button) findViewById(R.id.decrement_by_one);
         decrementByOne.setOnClickListener(new View.OnClickListener() {
@@ -146,15 +171,69 @@ public class EditorActivity extends AppCompatActivity
             public void onClick(View v) {
                 String quantityString = quantityEditText.getText().toString().trim();
                 int quantity = Integer.parseInt(quantityString);
+                String editQuantityByString = editQuantityByEditText.getText().toString().trim();
+                int amountToEditBy = Integer.parseInt(editQuantityByString);
 
-                // TODO: update quantity
+                if(decrementByX == true && incrementByX == false){
+                    if(amountToEditBy <= quantity){
+                        quantity -= amountToEditBy;
+                    }else{
+                        Toast.makeText(getApplicationContext(),
+                                getString(R.string.message_invalid_amount_to_subtract),
+                                Toast.LENGTH_LONG).show();
+                    }
+
+                }
+
+                if (decrementByX == false && incrementByX == true){
+                    quantity += amountToEditBy;
+                }
 
                 quantityEditText.setText(String.valueOf(quantity));
             }
         });
+
     }
 
-    // TODO: Set up spinner
+    /**
+     * Setup the dropdown spinner that allows the user to select the gender of the pet.
+     */
+    private void setupSpinner() {
+        // Create adapter for spinner. The list options are from the String array it will use
+        // the spinner will use the default layout
+        ArrayAdapter editQuantitySpinnerAdapter = ArrayAdapter.createFromResource(this,
+                R.array.array_edit_quantity_options, android.R.layout.simple_spinner_item);
+
+        // Specify dropdown layout style - simple list view with 1 item per line
+        editQuantitySpinnerAdapter.setDropDownViewResource(android.R.layout.simple_dropdown_item_1line);
+
+        // Apply the adapter to the spinner
+        editQuantitySpinner.setAdapter(editQuantitySpinnerAdapter);
+
+        // Set the integer mSelected to the constant values
+        editQuantitySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selection = (String) parent.getItemAtPosition(position);
+                if (!TextUtils.isEmpty(selection)) {
+                    if (selection.equals(getString(R.string.spinner_subtract))) {
+                        decrementByX = true;
+                        incrementByX = false;
+                    } else {
+                        incrementByX = true;
+                        decrementByX = false;
+                    }
+                }
+            }
+
+            // Because AdapterView is an abstract class, onNothingSelected must be defined
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                decrementByX = false;
+                incrementByX = false;
+            }
+        });
+    }
 
     @Override
     public void onBackPressed() {
@@ -180,9 +259,10 @@ public class EditorActivity extends AppCompatActivity
         super.onPrepareOptionsMenu(menu);
         // If this is a new product, hide the "Delete" menu item.
         if (currentProductUri == null) {
-            MenuItem menuItem = menu.findItem(R.id.action_delete);
-            menuItem.setVisible(false);
+            MenuItem actionDelete = menu.findItem(R.id.action_delete);
+            actionDelete.setVisible(false);
         }
+
         return true;
     }
 
@@ -198,6 +278,10 @@ public class EditorActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_save:
+                if (!productHasChanged){
+                    finish();
+                    return true;
+                }
                 saveProduct();
                 finish();
                 return true;

@@ -17,6 +17,8 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,7 +27,9 @@ import com.example.android.inventory.data.ProductContract.ProductEntry;
 
 import com.example.android.inventory.data.ProductDbHelper;
 
+import static android.R.attr.id;
 import static android.webkit.ConsoleMessage.MessageLevel.LOG;
+import static com.example.android.inventory.R.id.quantity;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_NAME;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_PRICE;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_QUANTITY;
@@ -46,6 +50,11 @@ public class CatalogActivity extends AppCompatActivity implements
 
     private ProductCursorAdapter adapter;
 
+    /**
+     * Button to decrement the products quantity
+     */
+    private Button saleButton;
+
     private int PRODUCT_DB_LOADER = 1;
 
     @Override
@@ -54,6 +63,7 @@ public class CatalogActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_catalog);
 
         dbHelper = new ProductDbHelper(this);
+        saleButton = (Button) findViewById(R.id.sale);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

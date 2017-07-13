@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- These are the options displayed in the edit quantity drop-down Spinner -->
+    <string-array name="array_edit_quantity_options">
+        <item>@string/spinner_subtract</item>
+        <item>@string/spinner_add</item>
+    </string-array>
+</resources>
