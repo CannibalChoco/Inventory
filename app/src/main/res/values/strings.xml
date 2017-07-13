@@ -77,6 +77,18 @@
     <!-- Message shown when user enters too large amount to subtract form quantity -->
     <string name="message_invalid_amount_to_subtract">Can\'t subtract more items than you have</string>
 
+    <!-- Message shown when user tries to save product, but hasn't provided products name -->
+    <string name="message_no_product_name">To save product, enter products name</string>
+
+    <!-- Message shown when user tries to save product, but hasn't provided products price -->
+    <string name="message_no_product_price">To save product, enter products price</string>
+
+    <!-- Message shown when user tries to save product, but hasn't provided products quantity -->
+    <string name="message_no_product_quantity">To save product, enter products quantity</string>
+
+    <!-- Message shown when user tries to save product, but hasn't provided suppliers email -->
+    <string name="message_no_supplier_email">To save product, enter suppliers email</string>
+
     <!-- EditorActivity title to add a new product -->
     <string name="editor_activity_title_add_product">Add Product</string>
 
@@ -94,6 +106,9 @@
 
     <!-- Dialog message to ask the user to confirm deleting the current product [CHAR LIMIT=NONE] -->
     <string name="delete_dialog_msg">Delete this product?</string>
+
+    <!-- Dialog message to ask the user to confirm deleting all products [CHAR LIMIT=NONE] -->
+    <string name="delete_all_dialog_msg">Delete all products?</string>
 
     <!-- Dialog button text for the option to confirm deleting the current product [CHAR LIMIT=20] -->
     <string name="delete">Delete</string>

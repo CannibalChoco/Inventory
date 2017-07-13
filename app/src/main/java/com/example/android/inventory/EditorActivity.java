@@ -14,6 +14,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputFilter;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -126,9 +127,9 @@ public class EditorActivity extends AppCompatActivity
 
         nameEditText = (EditText) findViewById(R.id.edit_product_name);
         priceEditText = (EditText) findViewById(R.id.edit_product_price);
-        priceEditText.setFilters(new InputFilter[] {new DecimalDigitsInputFilter(2)});
+        priceEditText.setFilters(new InputFilter[]{new DecimalDigitsInputFilter(2)});
         quantityEditText = (EditText) findViewById(R.id.edit_product_quantity);
-        editQuantityByEditText = (EditText) findViewById(R.id.edit_product_quantity_by) ;
+        editQuantityByEditText = (EditText) findViewById(R.id.edit_product_quantity_by);
         editQuantitySpinner = (Spinner) findViewById(R.id.spinner_edit_quantity);
         suppliersEmailEditText = (EditText) findViewById(R.id.edit_product_supplier);
 
@@ -147,7 +148,7 @@ public class EditorActivity extends AppCompatActivity
             public void onClick(View v) {
                 String quantityString = quantityEditText.getText().toString().trim();
                 int quantity = Integer.parseInt(quantityString);
-                if(quantity > 0){
+                if (quantity > 0) {
                     quantity--;
                 }
                 quantityEditText.setText(String.valueOf(quantity));
@@ -174,10 +175,10 @@ public class EditorActivity extends AppCompatActivity
                 String editQuantityByString = editQuantityByEditText.getText().toString().trim();
                 int amountToEditBy = Integer.parseInt(editQuantityByString);
 
-                if(decrementByX == true && incrementByX == false){
-                    if(amountToEditBy <= quantity){
+                if (decrementByX == true && incrementByX == false) {
+                    if (amountToEditBy <= quantity) {
                         quantity -= amountToEditBy;
-                    }else{
+                    } else {
                         Toast.makeText(getApplicationContext(),
                                 getString(R.string.message_invalid_amount_to_subtract),
                                 Toast.LENGTH_LONG).show();
@@ -185,7 +186,7 @@ public class EditorActivity extends AppCompatActivity
 
                 }
 
-                if (decrementByX == false && incrementByX == true){
+                if (decrementByX == false && incrementByX == true) {
                     quantity += amountToEditBy;
                 }
 
@@ -237,7 +238,7 @@ public class EditorActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        if(!productHasChanged){
+        if (!productHasChanged) {
             super.onBackPressed();
         }
 
@@ -278,12 +279,7 @@ public class EditorActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_save:
-                if (!productHasChanged){
-                    finish();
-                    return true;
-                }
                 saveProduct();
-                finish();
                 return true;
             case R.id.action_delete:
                 showDeleteConfirmationDialog();
@@ -313,7 +309,6 @@ public class EditorActivity extends AppCompatActivity
     private void saveProduct() {
         String nameString = nameEditText.getText().toString().trim();
         String priceString = priceEditText.getText().toString().trim();
-        int price = Integer.parseInt(priceString.replace(".", ""));
         String quantityString = quantityEditText.getText().toString().trim();
         String supplierEmailString = suppliersEmailEditText.getText().toString().trim();
 
@@ -322,39 +317,68 @@ public class EditorActivity extends AppCompatActivity
                 TextUtils.isEmpty(supplierEmailString)) {
             finish();
             return;
-        }
-
-        int quantity = 0;
-        if (!TextUtils.isEmpty(quantityString)) {
-            quantity = Integer.parseInt(quantityString);
-        }
-
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_PRODUCT_NAME, nameString);
-        values.put(COLUMN_PRODUCT_PRICE, price);
-        values.put(COLUMN_PRODUCT_QUANTITY, quantity);
-        values.put(COLUMN_PRODUCT_SUPPLIER_EMAIL, supplierEmailString);
-
-        if (currentProductUri == null) {
-            Uri uri = getContentResolver().insert(CONTENT_URI, values);
-
-            if (uri == null) {
-                Toast.makeText(this, getString(R.string.message_product_not_saved),
-                        Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, getString(R.string.message_product_saved),
-                        Toast.LENGTH_SHORT).show();
+        }else if (TextUtils.isEmpty(nameString)) {
+            Toast.makeText(getApplicationContext(),
+                    getString(R.string.message_no_product_name),
+                    Toast.LENGTH_LONG).show();
+            Log.i("EditorActivity", "TEST: " + getString(R.string.message_no_product_name));
+            return;
+        }else if (TextUtils.isEmpty(priceString)) {
+            Toast.makeText(getApplicationContext(),
+                    getString(R.string.message_no_product_price),
+                    Toast.LENGTH_LONG).show();
+            Log.i("EditorActivity", "TEST: " + getString(R.string.message_no_product_price));
+            return;
+        }else if (TextUtils.isEmpty(quantityString)) {
+            Toast.makeText(getApplicationContext(),
+                    getString(R.string.message_no_product_quantity),
+                    Toast.LENGTH_LONG).show();
+            Log.i("EditorActivity", "TEST: " + getString(R.string.message_no_product_quantity));
+            return;
+        }else if (TextUtils.isEmpty(supplierEmailString)) {
+            Toast.makeText(getApplicationContext(),
+                    getString(R.string.message_no_supplier_email),
+                    Toast.LENGTH_LONG).show();
+            Log.i("EditorActivity", "TEST: " + getString(R.string.message_no_supplier_email));
+            return;
+        }else{
+            Log.i("EditorActivity", "TEST: " + priceString);
+            if (!priceString.contains(".")){
+                priceString += ".00";
             }
-        } else {
-            int productUpdated = getContentResolver().update(currentProductUri, values, null, null);
+            Log.i("EditorActivity", "TEST: " + priceString);
+            int price = Integer.parseInt(priceString.replace(".", ""));;
+            int quantity = Integer.parseInt(quantityString);
 
-            if (productUpdated == 0) {
-                Toast.makeText(this, getString(R.string.message_product_update_failed),
-                        Toast.LENGTH_SHORT).show();
+            ContentValues values = new ContentValues();
+            values.put(COLUMN_PRODUCT_NAME, nameString);
+            values.put(COLUMN_PRODUCT_PRICE, price);
+            values.put(COLUMN_PRODUCT_QUANTITY, quantity);
+            values.put(COLUMN_PRODUCT_SUPPLIER_EMAIL, supplierEmailString);
+
+            if (currentProductUri == null) {
+                Uri uri = getContentResolver().insert(CONTENT_URI, values);
+
+                if (uri == null) {
+                    Toast.makeText(this, getString(R.string.message_product_not_saved),
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, getString(R.string.message_product_saved),
+                            Toast.LENGTH_SHORT).show();
+                }
             } else {
-                Toast.makeText(this, getString(R.string.message_product_updated),
-                        Toast.LENGTH_SHORT).show();
+                int productUpdated = getContentResolver().update(currentProductUri, values, null, null);
+
+                if (productUpdated == 0) {
+                    Toast.makeText(this, getString(R.string.message_product_update_failed),
+                            Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(this, getString(R.string.message_product_updated),
+                            Toast.LENGTH_SHORT).show();
+                }
             }
+
+            finish();
         }
     }
 
@@ -390,7 +414,7 @@ public class EditorActivity extends AppCompatActivity
             return;
         }
 
-        if(data.moveToFirst()){
+        if (data.moveToFirst()) {
             int nameColIndex = data.getColumnIndex(COLUMN_PRODUCT_NAME);
             int priceColIndex = data.getColumnIndex(COLUMN_PRODUCT_PRICE);
             int quantityColIndex = data.getColumnIndex(COLUMN_PRODUCT_QUANTITY);
