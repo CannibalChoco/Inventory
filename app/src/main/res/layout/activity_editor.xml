@@ -57,7 +57,8 @@
                 android:layout_weight="2"
                 android:hint="@string/name"
                 android:inputType="textCapWords"
-                android:paddingLeft="4dp" />
+                android:paddingLeft="4dp"
+                />
         </LinearLayout>
 
         <!-- Price category -->

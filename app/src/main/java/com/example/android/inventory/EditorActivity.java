@@ -27,6 +27,8 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.example.android.inventory.data.ProductProvider;
+
 import static com.example.android.inventory.R.string.delete;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_IMAGE;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_NAME;
@@ -39,6 +41,9 @@ import static com.example.android.inventory.data.ProductContract.ProductEntry._I
 
 public class EditorActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<Cursor> {
+
+    /** Tag for the log messages */
+    public static final String LOG_TAG = EditorActivity.class.getSimpleName();
 
     /**
      * Button to delete the product entry
@@ -128,6 +133,16 @@ public class EditorActivity extends AppCompatActivity
     private String imageUriString;
 
     /**
+     * Store products name
+     */
+    String name;
+
+    /**
+     * Store suppliers email
+     */
+    String supplierEmail;
+
+    /**
      * Track whether the user has edited product info
      */
     private boolean productHasChanged = false;
@@ -171,7 +186,7 @@ public class EditorActivity extends AppCompatActivity
         orderMoreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                orderMore();
             }
         });
 
@@ -240,13 +255,28 @@ public class EditorActivity extends AppCompatActivity
 
     /**
      * Helper method to select image from gallery.
-     *  Code taken form https://developer.android.com/guide/components/intents-common.html#Storage
+     * Code taken form https://developer.android.com/guide/components/intents-common.html#Storage
      */
     private void selectImage() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(intent, REQUEST_IMAGE_GET);
+        }
+    }
+
+    /**
+     * Helper method to order more products.
+     */
+    private void orderMore() {
+        String messageTemplate = getString(R.string.message_order_more);
+
+        Intent intent = new Intent(Intent.ACTION_SENDTO);
+        intent.setData(Uri.parse("mailto:"+ supplierEmail));
+        intent.putExtra(Intent.EXTRA_SUBJECT, name);
+        intent.putExtra(Intent.EXTRA_TEXT, messageTemplate);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivity(intent);
         }
     }
 
@@ -383,43 +413,44 @@ public class EditorActivity extends AppCompatActivity
                 TextUtils.isEmpty(supplierEmailString)) {
             finish();
             return;
-        }else if (TextUtils.isEmpty(nameString)) {
+        } else if (TextUtils.isEmpty(nameString)) {
             Toast.makeText(getApplicationContext(),
                     getString(R.string.message_no_product_name),
                     Toast.LENGTH_LONG).show();
             Log.i("EditorActivity", "TEST: " + getString(R.string.message_no_product_name));
             return;
-        }else if (TextUtils.isEmpty(priceString)) {
+        } else if (TextUtils.isEmpty(priceString)) {
             Toast.makeText(getApplicationContext(),
                     getString(R.string.message_no_product_price),
                     Toast.LENGTH_LONG).show();
             Log.i("EditorActivity", "TEST: " + getString(R.string.message_no_product_price));
             return;
-        }else if (TextUtils.isEmpty(quantityString)) {
+        } else if (TextUtils.isEmpty(quantityString)) {
             Toast.makeText(getApplicationContext(),
                     getString(R.string.message_no_product_quantity),
                     Toast.LENGTH_LONG).show();
             Log.i("EditorActivity", "TEST: " + getString(R.string.message_no_product_quantity));
             return;
-        }else if (TextUtils.isEmpty(supplierEmailString)) {
+        } else if (TextUtils.isEmpty(supplierEmailString)) {
             Toast.makeText(getApplicationContext(),
                     getString(R.string.message_no_supplier_email),
                     Toast.LENGTH_LONG).show();
             Log.i("EditorActivity", "TEST: " + getString(R.string.message_no_supplier_email));
             return;
-        }else if(imageUriString == null){
+        } else if (imageUriString == null) {
             Toast.makeText(getApplicationContext(),
                     getString(R.string.message_no_image),
                     Toast.LENGTH_LONG).show();
             Log.i("EditorActivity", "TEST: " + getString(R.string.message_no_image));
             return;
-        }else{
+        } else {
             Log.i("EditorActivity", "TEST: " + priceString);
-            if (!priceString.contains(".")){
+            if (!priceString.contains(".")) {
                 priceString += ".00";
             }
             Log.i("EditorActivity", "TEST: " + priceString);
-            int price = Integer.parseInt(priceString.replace(".", ""));;
+            int price = Integer.parseInt(priceString.replace(".", ""));
+            ;
             int quantity = Integer.parseInt(quantityString);
 
             ContentValues values = new ContentValues();
@@ -495,10 +526,10 @@ public class EditorActivity extends AppCompatActivity
             int supplierEmailColIndex = data.getColumnIndex(COLUMN_PRODUCT_SUPPLIER_EMAIL);
             int imageStringColIndex = data.getColumnIndex(COLUMN_PRODUCT_IMAGE);
 
-            String name = data.getString(nameColIndex);
+            name = data.getString(nameColIndex);
             double price = data.getInt(priceColIndex) / 100.00;
             int quantity = data.getInt(quantityColIndex);
-            String supplierEmail = data.getString(supplierEmailColIndex);
+            supplierEmail = data.getString(supplierEmailColIndex);
             imageUriString = data.getString(imageStringColIndex);
             Uri imageUri = Uri.parse(imageUriString);
 

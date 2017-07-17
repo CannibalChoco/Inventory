@@ -131,4 +131,7 @@
     <!-- Label for Delete Button -->
     <string name="button_delete">Delete product</string>
 
+    <!-- Email message template for ordering more products -->
+    <string name="message_order_more">Hello! I would like to order </string>
+
 </resources>
