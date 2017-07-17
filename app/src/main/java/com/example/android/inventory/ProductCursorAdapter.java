@@ -21,12 +21,16 @@ import com.example.android.inventory.data.ProductProvider;
 
 import static android.R.attr.data;
 import static android.R.attr.id;
+import static android.R.attr.tabWidgetStyle;
 import static com.example.android.inventory.R.id.quantity;
+import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_IMAGE;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_NAME;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_PRICE;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_QUANTITY;
+import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_SUPPLIER_EMAIL;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.CONTENT_URI;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.TABLE_NAME;
+import static com.example.android.inventory.data.ProductContract.ProductEntry._ID;
 
 public class ProductCursorAdapter extends CursorAdapter {
 
@@ -53,13 +57,15 @@ public class ProductCursorAdapter extends CursorAdapter {
         TextView priceTextView = (TextView) view.findViewById(R.id.price);
         TextView quantityTextView = (TextView) view.findViewById(quantity);
 
+        int idColIndex = cursor.getColumnIndex(_ID);
         int nameColumnIndex = cursor.getColumnIndex(COLUMN_PRODUCT_NAME);
         int priceColumnIndex = cursor.getColumnIndex(COLUMN_PRODUCT_PRICE);
         int quantityColumnIndex = cursor.getColumnIndex(COLUMN_PRODUCT_QUANTITY);
 
+        final long id = cursor.getLong(idColIndex);
         String name = cursor.getString(nameColumnIndex);
         double price = cursor.getInt(priceColumnIndex) / 100.00;
-        int quantity = cursor.getInt(quantityColumnIndex);
+        final int quantity = cursor.getInt(quantityColumnIndex);
 
         priceTextView.setText(String.format("%.2f", price));
         nameTextView.setText(name);
@@ -69,26 +75,18 @@ public class ProductCursorAdapter extends CursorAdapter {
         saleButton.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // TODO: get this to work properly
-                cursor.moveToPosition(position);
-                ContentValues values = new ContentValues();
+                if (quantity > 0){
+                    ContentValues values = new ContentValues();
 
-                int quantityColIndex = cursor.getColumnIndex(COLUMN_PRODUCT_QUANTITY);
-                int quantity = cursor.getInt(quantityColIndex);
-                Log.i(LOG_TAG, "TEST: quantity = " + quantity);
+                    values.put(COLUMN_PRODUCT_QUANTITY, quantity - 1);
 
-                if ( quantity > 0){
-                    int updatedQuantity = quantity - 1;
+                    Uri currentProductUri = ContentUris.withAppendedId(CONTENT_URI, id);
 
-                    values.put(COLUMN_PRODUCT_QUANTITY, updatedQuantity);
-                    Log.i(LOG_TAG, "TEST: new quantity = " + updatedQuantity);
-
-                    Uri currentProductUri = ContentUris.withAppendedId(CONTENT_URI, position);
-
-                    int productUpdated = context.getContentResolver().update(currentProductUri, values, null, null);
-                    Log.i(LOG_TAG, "TEST: product updated: " + productUpdated);
+                    context.getContentResolver().update(currentProductUri, values, null, null);
+                    context.getContentResolver().notifyChange(CONTENT_URI, null);
+                }else{
+                    Toast.makeText(context, "" + R.string.message_out_of_stock, Toast.LENGTH_SHORT).show();
                 }
-                context.getContentResolver().notifyChange(CONTENT_URI, null);
             }
         });
     }

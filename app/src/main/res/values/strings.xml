@@ -134,4 +134,7 @@
     <!-- Email message template for ordering more products -->
     <string name="message_order_more">Hello! I would like to order </string>
 
+    <!-- Message for when the product is out of stock and user presses Sale Button -->
+    <string name="message_out_of_stock">Out of stock. Can\'t make a sale</string>
+
 </resources>
