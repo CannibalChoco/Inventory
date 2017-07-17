@@ -43,7 +43,7 @@ public class EditorActivity extends AppCompatActivity
     /**
      * ImageView field upload or display products image
      */
-    private ImageView productsImage;
+    private ImageView productsImageView;
 
     /**
      * EditText field to enter the products name
@@ -144,7 +144,7 @@ public class EditorActivity extends AppCompatActivity
             getLoaderManager().initLoader(PRODUCT_LOADER, null, this);
         }
 
-        productsImage = (ImageView) findViewById(R.id.image);
+        productsImageView = (ImageView) findViewById(R.id.image);
         nameEditText = (EditText) findViewById(R.id.edit_product_name);
         priceEditText = (EditText) findViewById(R.id.edit_product_price);
         priceEditText.setFilters(new InputFilter[]{new DecimalDigitsInputFilter(2)});
@@ -162,7 +162,7 @@ public class EditorActivity extends AppCompatActivity
 
         setupSpinner();
 
-        productsImage.setOnClickListener(new View.OnClickListener() {
+        productsImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selectImage();
@@ -228,7 +228,7 @@ public class EditorActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_GET && resultCode == RESULT_OK) {
             Uri imageUri = data.getData();
-            productsImage.setImageURI(imageUri);
+            productsImageView.setImageURI(imageUri);
             imageUriString = imageUri.toString();
         }
     }
@@ -446,7 +446,8 @@ public class EditorActivity extends AppCompatActivity
                 COLUMN_PRODUCT_NAME,
                 COLUMN_PRODUCT_PRICE,
                 COLUMN_PRODUCT_QUANTITY,
-                COLUMN_PRODUCT_SUPPLIER_EMAIL};
+                COLUMN_PRODUCT_SUPPLIER_EMAIL,
+                COLUMN_PRODUCT_IMAGE};
 
         return new CursorLoader(this, currentProductUri, projection, null, null, null);
     }
@@ -463,16 +464,20 @@ public class EditorActivity extends AppCompatActivity
             int priceColIndex = data.getColumnIndex(COLUMN_PRODUCT_PRICE);
             int quantityColIndex = data.getColumnIndex(COLUMN_PRODUCT_QUANTITY);
             int supplierEmailColIndex = data.getColumnIndex(COLUMN_PRODUCT_SUPPLIER_EMAIL);
+            int imageStringColIndex = data.getColumnIndex(COLUMN_PRODUCT_IMAGE);
 
             String name = data.getString(nameColIndex);
             double price = data.getInt(priceColIndex) / 100.00;
             int quantity = data.getInt(quantityColIndex);
             String supplierEmail = data.getString(supplierEmailColIndex);
+            imageUriString = data.getString(imageStringColIndex);
+            Uri imageUri = Uri.parse(imageUriString);
 
             nameEditText.setText(name);
             priceEditText.setText(String.format("%.2f", price));
             quantityEditText.setText(String.valueOf(quantity));
             suppliersEmailEditText.setText(supplierEmail);
+            productsImageView.setImageURI(imageUri);
         }
     }
 
