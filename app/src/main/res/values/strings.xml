@@ -125,4 +125,10 @@
     <!-- Label for dropdown menu option to select decrement option [CHAR LIMIT=20] -->
     <string name="spinner_add">Add</string>
 
+    <!-- Label for Order more Button -->
+    <string name="button_order_more">Order more</string>
+
+    <!-- Label for Delete Button -->
+    <string name="button_delete">Delete product</string>
+
 </resources>

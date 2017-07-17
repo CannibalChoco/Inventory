@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -28,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import static com.example.android.inventory.R.string.delete;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_IMAGE;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_NAME;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_PRICE;
@@ -39,6 +39,16 @@ import static com.example.android.inventory.data.ProductContract.ProductEntry._I
 
 public class EditorActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<Cursor> {
+
+    /**
+     * Button to delete the product entry
+     */
+    private Button deleteEntryButton;
+
+    /**
+     * Button to open email to order more
+     */
+    private Button orderMoreButton;
 
     /**
      * ImageView field upload or display products image
@@ -144,6 +154,8 @@ public class EditorActivity extends AppCompatActivity
             getLoaderManager().initLoader(PRODUCT_LOADER, null, this);
         }
 
+        deleteEntryButton = (Button) findViewById(R.id.delete_entry);
+        orderMoreButton = (Button) findViewById(R.id.order_more);
         productsImageView = (ImageView) findViewById(R.id.image);
         nameEditText = (EditText) findViewById(R.id.edit_product_name);
         priceEditText = (EditText) findViewById(R.id.edit_product_price);
@@ -152,6 +164,23 @@ public class EditorActivity extends AppCompatActivity
         editQuantityByEditText = (EditText) findViewById(R.id.edit_product_quantity_by);
         editQuantitySpinner = (Spinner) findViewById(R.id.spinner_edit_quantity);
         suppliersEmailEditText = (EditText) findViewById(R.id.edit_product_supplier);
+
+        orderMoreButton.setText(R.string.button_order_more);
+        deleteEntryButton.setText(R.string.button_delete);
+
+        orderMoreButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        deleteEntryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDeleteConfirmationDialog();
+            }
+        });
 
         nameEditText.setOnTouchListener(touchListener);
         priceEditText.setOnTouchListener(touchListener);
@@ -213,7 +242,7 @@ public class EditorActivity extends AppCompatActivity
      * Helper method to select image from gallery.
      *  Code taken form https://developer.android.com/guide/components/intents-common.html#Storage
      */
-    public void selectImage() {
+    private void selectImage() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
         if (intent.resolveActivity(getPackageManager()) != null) {
@@ -516,7 +545,7 @@ public class EditorActivity extends AppCompatActivity
         // for the positive and negative buttons on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(R.string.delete_dialog_msg);
-        builder.setPositiveButton(R.string.delete, new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(delete, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked the "Delete" button, so delete the product.
                 deleteProduct();

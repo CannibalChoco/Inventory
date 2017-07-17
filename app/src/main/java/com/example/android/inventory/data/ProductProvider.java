@@ -212,7 +212,7 @@ public class ProductProvider extends ContentProvider {
     /**
      * Helper method to update product
      */
-    private int updateProduct(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
+    public int updateProduct(Uri uri, ContentValues values, String selection, String[] selectionArgs) {
         // If there are no values to update, then don't try to update the database
         if (values.size() == 0) {
             return 0;

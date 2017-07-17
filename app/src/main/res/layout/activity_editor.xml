@@ -1,176 +1,200 @@
 <?xml version="1.0" encoding="utf-8"?><!-- Layout for the editor -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="@dimen/activity_margin"
-    tools:context=".EditorActivity">
+    android:fillViewport="true">
 
-    <ImageView
-        android:id="@+id/image"
+    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="200dp" />
-
-    <!-- Name category -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <!-- Label -->
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/name" />
-
-        <!-- Name field -->
-        <EditText
-            android:id="@+id/edit_product_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:hint="@string/name"
-            android:inputType="textCapWords"
-            android:paddingLeft="4dp" />
-    </LinearLayout>
-
-    <!-- Price category -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <!-- Label -->
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/price" />
-
-        <!-- Price field -->
-        <EditText
-            android:id="@+id/edit_product_price"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:hint="@string/price"
-            android:inputType="numberDecimal"
-            android:paddingLeft="4dp" />
-    </LinearLayout>
-
-    <!-- Quantity category -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <!-- Label -->
-        <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="1"
-            android:text="@string/quantity" />
-
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="@dimen/activity_margin"
+        tools:context=".EditorActivity">
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="2">
+            android:paddingBottom="@dimen/activity_margin">
 
-            <!-- Decrement Button -->
             <Button
-                android:id="@+id/decrement_by_one"
-                android:layout_width="45dp"
+                android:id="@+id/order_more"
+                android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:text="@string/decrement" />
+                android:layout_marginRight="@dimen/activity_margin"/>
 
-            <!-- Quantity field -->
-            <EditText
-                android:id="@+id/edit_product_quantity"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/activity_margin_small"
-                android:layout_marginRight="@dimen/activity_margin_small"
-                android:hint="@string/quantity_hint"
-                android:inputType="number"
-                android:paddingLeft="@dimen/activity_margin_small"
-                android:paddingRight="@dimen/activity_margin_small" />
-
-            <!-- Increment Button -->
             <Button
-                android:id="@+id/increment_by_one"
-                android:layout_width="45dp"
-                android:layout_height="wrap_content"
-                android:text="@string/increment" />
+                android:id="@+id/delete_entry"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
-    </LinearLayout>
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="@color/color_default_text"/>
 
-    <!-- Edit Quantity-by category -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <View
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="0dp"/>
-
+        <!-- Name category -->
         <LinearLayout
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_height="wrap_content">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-            <!-- Edit quantity drop-down spinner -->
-            <Spinner
-                android:id="@+id/spinner_edit_quantity"
-                android:layout_height="48dp"
-                android:layout_width="wrap_content"
-                android:paddingRight="16dp"
-                android:spinnerMode="dropdown"/>
-
-            <!-- Quantity input field -->
-            <EditText
-                android:id="@+id/edit_product_quantity_by"
-                android:layout_width="wrap_content"
+            <!-- Label -->
+            <TextView
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/activity_margin_small"
-                android:layout_marginRight="@dimen/activity_margin_small"
-                android:hint="@string/quantity_hint"
-                android:inputType="number"
-                android:paddingLeft="@dimen/activity_margin_small"
-                android:paddingRight="@dimen/activity_margin_small" />
+                android:layout_weight="1"
+                android:text="@string/name" />
+
+            <!-- Name field -->
+            <EditText
+                android:id="@+id/edit_product_name"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:hint="@string/name"
+                android:inputType="textCapWords"
+                android:paddingLeft="4dp" />
         </LinearLayout>
 
-
-    </LinearLayout>
-
-
-    <!-- Supplier email category -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <!-- Label -->
-        <TextView
-            android:layout_width="0dp"
+        <!-- Price category -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/supplier_email" />
+            android:orientation="horizontal">
 
-        <!-- Supplier email field -->
-        <EditText
-            android:id="@+id/edit_product_supplier"
-            android:layout_width="0dp"
+            <!-- Label -->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/price" />
+
+            <!-- Price field -->
+            <EditText
+                android:id="@+id/edit_product_price"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:hint="@string/price"
+                android:inputType="numberDecimal"
+                android:paddingLeft="4dp" />
+        </LinearLayout>
+
+        <!-- Quantity category -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:hint="@string/supplier_email_hint"
-            android:inputType="textEmailAddress"
-            android:paddingLeft="4dp" />
+            android:orientation="horizontal">
+
+            <!-- Label -->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="1"
+                android:text="@string/quantity" />
+
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2">
+
+                <!-- Decrement Button -->
+                <Button
+                    android:id="@+id/decrement_by_one"
+                    android:layout_width="45dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/decrement" />
+
+                <!-- Quantity field -->
+                <EditText
+                    android:id="@+id/edit_product_quantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_margin_small"
+                    android:layout_marginRight="@dimen/activity_margin_small"
+                    android:hint="@string/quantity_hint"
+                    android:inputType="number"
+                    android:paddingLeft="@dimen/activity_margin_small"
+                    android:paddingRight="@dimen/activity_margin_small" />
+
+                <!-- Increment Button -->
+                <Button
+                    android:id="@+id/increment_by_one"
+                    android:layout_width="45dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/increment" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <!-- Edit Quantity-by category -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:layout_weight="1" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2">
+
+                <!-- Edit quantity drop-down spinner -->
+                <Spinner
+                    android:id="@+id/spinner_edit_quantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="48dp"
+                    android:paddingRight="16dp"
+                    android:spinnerMode="dropdown" />
+
+                <!-- Quantity input field -->
+                <EditText
+                    android:id="@+id/edit_product_quantity_by"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_margin_small"
+                    android:layout_marginRight="@dimen/activity_margin_small"
+                    android:hint="@string/quantity_hint"
+                    android:inputType="number"
+                    android:paddingLeft="@dimen/activity_margin_small"
+                    android:paddingRight="@dimen/activity_margin_small" />
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <!-- Supplier email category -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- Label -->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/supplier_email" />
+
+            <!-- Supplier email field -->
+            <EditText
+                android:id="@+id/edit_product_supplier"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:hint="@string/supplier_email_hint"
+                android:inputType="textEmailAddress"
+                android:paddingLeft="4dp" />
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
+</ScrollView>
