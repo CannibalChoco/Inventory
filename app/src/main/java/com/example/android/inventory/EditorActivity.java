@@ -4,9 +4,10 @@ import android.app.LoaderManager;
 import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
-import android.graphics.Color;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -23,9 +24,11 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_IMAGE;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_NAME;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_PRICE;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_QUANTITY;
@@ -36,6 +39,11 @@ import static com.example.android.inventory.data.ProductContract.ProductEntry._I
 
 public class EditorActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<Cursor> {
+
+    /**
+     * ImageView field upload or display products image
+     */
+    private ImageView productsImage;
 
     /**
      * EditText field to enter the products name
@@ -82,6 +90,7 @@ public class EditorActivity extends AppCompatActivity
      */
     private EditText updateByX;
 
+
     /**
      * Edit quantity variables to track users choice
      */
@@ -97,6 +106,16 @@ public class EditorActivity extends AppCompatActivity
      * Identifier for the product data loader
      */
     private static final int PRODUCT_LOADER = 0;
+
+    /**
+     * Identifier for image request
+     */
+    static final int REQUEST_IMAGE_GET = 1;
+
+    /**
+     * Products image Uri converted to String
+     */
+    private String imageUriString;
 
     /**
      * Track whether the user has edited product info
@@ -125,6 +144,7 @@ public class EditorActivity extends AppCompatActivity
             getLoaderManager().initLoader(PRODUCT_LOADER, null, this);
         }
 
+        productsImage = (ImageView) findViewById(R.id.image);
         nameEditText = (EditText) findViewById(R.id.edit_product_name);
         priceEditText = (EditText) findViewById(R.id.edit_product_price);
         priceEditText.setFilters(new InputFilter[]{new DecimalDigitsInputFilter(2)});
@@ -141,6 +161,13 @@ public class EditorActivity extends AppCompatActivity
         suppliersEmailEditText.setOnTouchListener(touchListener);
 
         setupSpinner();
+
+        productsImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectImage();
+            }
+        });
 
         decrementByOne = (Button) findViewById(R.id.decrement_by_one);
         decrementByOne.setOnClickListener(new View.OnClickListener() {
@@ -172,28 +199,38 @@ public class EditorActivity extends AppCompatActivity
             public void onClick(View v) {
                 String quantityString = quantityEditText.getText().toString().trim();
                 int quantity = Integer.parseInt(quantityString);
-                String editQuantityByString = editQuantityByEditText.getText().toString().trim();
-                int amountToEditBy = Integer.parseInt(editQuantityByString);
-
-                if (decrementByX == true && incrementByX == false) {
-                    if (amountToEditBy <= quantity) {
-                        quantity -= amountToEditBy;
-                    } else {
-                        Toast.makeText(getApplicationContext(),
-                                getString(R.string.message_invalid_amount_to_subtract),
-                                Toast.LENGTH_LONG).show();
-                    }
-
-                }
-
-                if (decrementByX == false && incrementByX == true) {
-                    quantity += amountToEditBy;
-                }
+                //String editQuantityByString = editQuantityByEditText.getText().toString().trim();
+                //int amountToEditBy = Integer.parseInt(editQuantityByString);
+                //TODO: implement method
 
                 quantityEditText.setText(String.valueOf(quantity));
             }
         });
 
+    }
+
+    /**
+     * Helper method to select image from gallery.
+     *  Code taken form https://developer.android.com/guide/components/intents-common.html#Storage
+     */
+    public void selectImage() {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(intent, REQUEST_IMAGE_GET);
+        }
+    }
+
+    /**
+     * Set the Image Uri
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_IMAGE_GET && resultCode == RESULT_OK) {
+            Uri imageUri = data.getData();
+            productsImage.setImageURI(imageUri);
+            imageUriString = imageUri.toString();
+        }
     }
 
     /**
@@ -341,6 +378,12 @@ public class EditorActivity extends AppCompatActivity
                     Toast.LENGTH_LONG).show();
             Log.i("EditorActivity", "TEST: " + getString(R.string.message_no_supplier_email));
             return;
+        }else if(imageUriString == null){
+            Toast.makeText(getApplicationContext(),
+                    getString(R.string.message_no_image),
+                    Toast.LENGTH_LONG).show();
+            Log.i("EditorActivity", "TEST: " + getString(R.string.message_no_image));
+            return;
         }else{
             Log.i("EditorActivity", "TEST: " + priceString);
             if (!priceString.contains(".")){
@@ -355,6 +398,7 @@ public class EditorActivity extends AppCompatActivity
             values.put(COLUMN_PRODUCT_PRICE, price);
             values.put(COLUMN_PRODUCT_QUANTITY, quantity);
             values.put(COLUMN_PRODUCT_SUPPLIER_EMAIL, supplierEmailString);
+            values.put(COLUMN_PRODUCT_IMAGE, imageUriString);
 
             if (currentProductUri == null) {
                 Uri uri = getContentResolver().insert(CONTENT_URI, values);
