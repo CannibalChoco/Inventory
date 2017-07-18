@@ -13,27 +13,11 @@
 
         <TextView
             android:id="@+id/name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:fontFamily="sans-serif-medium"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:text="suitcase"
-            android:textAppearance="?android:textAppearanceLarge"
-            android:textColor="@color/color_default_text" />
+            style="@style/ListItemNameStyle" />
 
         <TextView
             android:id="@+id/price"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/activity_margin"
-            android:layout_weight="1"
-            android:fontFamily="sans-serif-medium"
-            android:gravity="right"
-            android:text="89.99"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="@color/color_default_text" />
+            style="@style/ListItemPriceStyle" />
     </LinearLayout>
 
     <LinearLayout
@@ -43,33 +27,17 @@
         android:layout_marginRight="@dimen/activity_margin">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-medium"
-            android:text="@string/catalog_in_stock"
-            android:layout_marginRight="@dimen/activity_margin_small"
-            android:textAppearance="?android:textAppearanceSmall" />
+            style="@style/ListItemInStockTextViewStyle"
+            android:text="@string/catalog_in_stock" />
 
         <TextView
             android:id="@+id/quantity"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:fontFamily="sans-serif-medium"
-            android:text="6"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="@color/color_default_text" />
+            style="@style/ListItemInStockStyle" />
 
         <Button
             android:id="@+id/sale"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:focusable="false"
-            android:fontFamily="sans-serif-medium"
-            android:text="@string/list_item_sale_button"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="@color/color_default_text" />
+            style="@style/ListItemButtonStyle"
+            android:text="@string/list_item_sale_button" />
     </LinearLayout>
 
 

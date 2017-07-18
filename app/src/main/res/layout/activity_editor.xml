@@ -6,7 +6,7 @@
 
     <LinearLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="@dimen/activity_margin"
         tools:context=".EditorActivity">
@@ -14,9 +14,7 @@
         <!-- Order More button -->
         <Button
             android:id="@+id/order_more"
-            android:layout_width="match_parent"
-            android:layout_marginBottom="@dimen/activity_margin"
-            android:layout_height="wrap_content"/>
+            style="@style/OrderMoreButtonStyle" />
 
         <!-- ImageView category -->
         <RelativeLayout
@@ -25,9 +23,7 @@
 
             <ImageView
                 android:id="@+id/image"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:scaleType="centerCrop" />
+                style="@style/ImageViewStyle" />
 
             <TextView
                 android:id="@+id/no_image_text"
@@ -45,21 +41,15 @@
 
             <!-- Label -->
             <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                style="@style/LabelTextViewStyle"
                 android:text="@string/name" />
 
             <!-- Name field -->
             <EditText
                 android:id="@+id/edit_product_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
+                style="@style/EditTextStyle"
                 android:hint="@string/name"
-                android:inputType="textNoSuggestions"
-                android:paddingLeft="4dp"
-                android:textColor="@color/color_default_text" />
+                android:inputType="textNoSuggestions" />
         </LinearLayout>
 
         <!-- Price category -->
@@ -70,21 +60,15 @@
 
             <!-- Label -->
             <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                style="@style/LabelTextViewStyle"
                 android:text="@string/price" />
 
             <!-- Price field -->
             <EditText
                 android:id="@+id/edit_product_price"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
+                style="@style/EditTextStyle"
                 android:hint="@string/price"
-                android:inputType="numberDecimal"
-                android:paddingLeft="4dp"
-                android:textColor="@color/color_default_text" />
+                android:inputType="numberDecimal" />
         </LinearLayout>
 
         <!-- Quantity category -->
@@ -95,10 +79,8 @@
 
             <!-- Label -->
             <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                style="@style/LabelTextViewStyle"
                 android:layout_gravity="center_vertical"
-                android:layout_weight="1"
                 android:text="@string/quantity" />
 
 
@@ -117,16 +99,8 @@
                 <!-- Quantity field -->
                 <TextView
                     android:id="@+id/edit_product_quantity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="@dimen/activity_margin_small"
-                    android:layout_marginRight="@dimen/activity_margin_small"
-                    android:hint="@string/quantity_hint"
-                    android:paddingLeft="@dimen/activity_margin_small"
-                    android:paddingRight="@dimen/activity_margin_small"
-                    android:textColor="@color/color_default_text"
-                    android:textSize="@dimen/default_text_size" />
+                    style="@style/QuantityTextViewStyle"
+                    android:hint="@string/quantity_hint" />
 
                 <!-- Increment Button -->
                 <Button
@@ -157,22 +131,13 @@
                 <!-- Edit quantity drop-down spinner -->
                 <Spinner
                     android:id="@+id/spinner_edit_quantity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="48dp"
-                    android:paddingRight="16dp"
-                    android:spinnerMode="dropdown" />
+                    style="@style/SpinnerStyle" />
 
                 <!-- Quantity input field -->
                 <EditText
                     android:id="@+id/edit_product_quantity_by"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/activity_margin_small"
-                    android:layout_marginRight="@dimen/activity_margin_small"
-                    android:hint="@string/quantity_hint"
-                    android:inputType="number"
-                    android:paddingLeft="@dimen/activity_margin_small"
-                    android:paddingRight="@dimen/activity_margin_small" />
+                    style="@style/NumberEditTextStyle"
+                    android:hint="@string/quantity_hint" />
             </LinearLayout>
 
 
@@ -186,28 +151,20 @@
 
             <!-- Label -->
             <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                style="@style/LabelTextViewStyle"
                 android:text="@string/supplier_email" />
 
             <!-- Supplier email field -->
             <EditText
                 android:id="@+id/edit_product_supplier"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
+                style="@style/EditTextStyle"
                 android:hint="@string/supplier_email_hint"
-                android:inputType="textEmailAddress"
-                android:paddingLeft="4dp"
-                android:textColor="@color/color_default_text" />
+                android:inputType="textEmailAddress" />
         </LinearLayout>
 
         <Button
             android:id="@+id/delete_entry"
-            android:layout_width="match_parent"
-            android:layout_marginTop="@dimen/activity_margin"
-            android:layout_height="wrap_content" />
+            style="@style/DeleteButtonStyle" />
     </LinearLayout>
 
 </ScrollView>
