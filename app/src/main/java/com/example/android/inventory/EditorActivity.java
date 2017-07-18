@@ -288,7 +288,7 @@ public class EditorActivity extends AppCompatActivity
                         quantity -= editQuantity;
                     } else {
                         Toast.makeText(getApplicationContext(),
-                                R.string.message_invalid_amount_to_subtract, Toast.LENGTH_LONG)
+                                R.string.message_invalid_amount_to_subtract, Toast.LENGTH_SHORT)
                                 .show();
                     }
                 }
@@ -501,27 +501,27 @@ public class EditorActivity extends AppCompatActivity
         } else if (TextUtils.isEmpty(nameString)) {
             Toast.makeText(getApplicationContext(),
                     getString(R.string.message_no_product_name),
-                    Toast.LENGTH_LONG).show();
+                    Toast.LENGTH_SHORT).show();
             return;
         } else if (TextUtils.isEmpty(priceString)) {
             Toast.makeText(getApplicationContext(),
                     getString(R.string.message_no_product_price),
-                    Toast.LENGTH_LONG).show();
+                    Toast.LENGTH_SHORT).show();
             return;
         } else if (TextUtils.isEmpty(quantityString)) {
             Toast.makeText(getApplicationContext(),
                     getString(R.string.message_no_product_quantity),
-                    Toast.LENGTH_LONG).show();
+                    Toast.LENGTH_SHORT).show();
             return;
         } else if (TextUtils.isEmpty(supplierEmailString)) {
             Toast.makeText(getApplicationContext(),
                     getString(R.string.message_no_supplier_email),
-                    Toast.LENGTH_LONG).show();
+                    Toast.LENGTH_SHORT).show();
             return;
         } else if (imageUriString == null) {
             Toast.makeText(getApplicationContext(),
                     getString(R.string.message_no_image),
-                    Toast.LENGTH_LONG).show();
+                    Toast.LENGTH_SHORT).show();
             return;
         } else {
             priceString = formatPriceString(priceString);
