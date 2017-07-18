@@ -87,7 +87,6 @@ public class CatalogActivity extends AppCompatActivity implements
             public void onClick(DialogInterface dialog, int id) {
                 // User clicked the "Delete" button, so delete the product.
                 getContentResolver().delete(CONTENT_URI, null, null);
-                finish();
             }
         });
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
@@ -116,32 +115,12 @@ public class CatalogActivity extends AppCompatActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         // User clicked on a menu option in the app bar overflow menu
         switch (item.getItemId()) {
-            // Respond to a click on the "Insert dummy data" menu option
-            case R.id.action_insert_dummy_data:
-                insertDummyProduct();
-                return true;
-            // Respond to a click on the "Delete all entries" menu option
             case R.id.action_delete_all_entries:
                 showDeleteConfirmationDialog();
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
-
-    /**
-     * Helper method to insert hardcoded product data into the database. For debugging purposes only.
-     */
-    private void insertDummyProduct() {
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_PRODUCT_NAME, "socks");
-        values.put(COLUMN_PRODUCT_PRICE, 234);
-        values.put(COLUMN_PRODUCT_QUANTITY, 4);
-        values.put(COLUMN_PRODUCT_SUPPLIER_EMAIL, "supplier@emai.com");
-
-        Uri uri = getContentResolver().insert(CONTENT_URI, values);
-        //Toast.makeText(this, "" + String.valueOf(uri), Toast.LENGTH_SHORT).show();
-    }
-
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
