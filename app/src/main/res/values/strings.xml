@@ -23,9 +23,6 @@
     <!-- Hint for product quantity in Editor-->
     <string name="quantity_hint">4</string>
 
-    <!-- Label for edit quantity-by in Editor-->
-    <string name="edit_quantity_by">Edit By ...</string>
-
     <!-- Label for product supplier email hint in Editor-->
     <string name="supplier_email">Supplier email</string>
 
@@ -92,6 +89,15 @@
     <!-- Message shown when user tries to save product, but hasn't provided an image -->
     <string name="message_no_image">To save product, choose an image for the product</string>
 
+    <!-- Email message template for ordering more products -->
+    <string name="message_order_more">Hello! I would like to order </string>
+
+    <!-- Message for when the product is out of stock and user presses Sale Button -->
+    <string name="message_out_of_stock">Out of stock. Can\'t make a sale</string>
+
+    <!-- error message for edit quantity by X amount field -->
+    <string name="message_error_occurred">Error occurred. Try again</string>
+
     <!-- EditorActivity title to add a new product -->
     <string name="editor_activity_title_add_product">Add Product</string>
 
@@ -131,10 +137,5 @@
     <!-- Label for Delete Button -->
     <string name="button_delete">Delete product</string>
 
-    <!-- Email message template for ordering more products -->
-    <string name="message_order_more">Hello! I would like to order </string>
-
-    <!-- Message for when the product is out of stock and user presses Sale Button -->
-    <string name="message_out_of_stock">Out of stock. Can\'t make a sale</string>
 
 </resources>
