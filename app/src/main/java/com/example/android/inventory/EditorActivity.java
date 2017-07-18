@@ -139,12 +139,12 @@ public class EditorActivity extends AppCompatActivity
     /**
      * Store products name
      */
-    String name;
+    private String name;
 
     /**
      * Store suppliers email
      */
-    String supplierEmail;
+    private String supplierEmail;
 
     /**
      * Track whether the user has edited product info
@@ -206,7 +206,6 @@ public class EditorActivity extends AppCompatActivity
             deleteEntryButton.setVisibility(View.INVISIBLE);
         }
 
-
         noImageTextView = (TextView) findViewById(R.id.no_image_text);
         noImageTextView.setText(R.string.no_image_text_view);
 
@@ -222,8 +221,6 @@ public class EditorActivity extends AppCompatActivity
         editQuantitySpinner.setOnTouchListener(touchListener);
         editQuantityEditText.setOnTouchListener(touchListener);
         suppliersEmailEditText.setOnTouchListener(touchListener);
-
-        setupSpinner();
 
         productsImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -274,6 +271,8 @@ public class EditorActivity extends AppCompatActivity
                 editQuantityBy();
             }
         });
+
+        setupSpinner();
     }
 
     /**
@@ -293,7 +292,7 @@ public class EditorActivity extends AppCompatActivity
             Toast.makeText(getApplicationContext(),
                     getString(R.string.message_no_product_quantity),
                     Toast.LENGTH_SHORT).show();
-        }else{
+        } else {
             int editQuantity = Integer.parseInt(editQuantityString);
 
             // subtract
@@ -313,7 +312,6 @@ public class EditorActivity extends AppCompatActivity
             }
 
             quantityText.setText(String.valueOf(quantity));
-
         }
     }
 
@@ -512,6 +510,11 @@ public class EditorActivity extends AppCompatActivity
                 TextUtils.isEmpty(supplierEmailString)) {
             finish();
             return;
+        } else if (imageUriString == null) {
+            Toast.makeText(getApplicationContext(),
+                    getString(R.string.message_no_image),
+                    Toast.LENGTH_SHORT).show();
+            return;
         } else if (TextUtils.isEmpty(nameString)) {
             Toast.makeText(getApplicationContext(),
                     getString(R.string.message_no_product_name),
@@ -530,11 +533,6 @@ public class EditorActivity extends AppCompatActivity
         } else if (TextUtils.isEmpty(supplierEmailString)) {
             Toast.makeText(getApplicationContext(),
                     getString(R.string.message_no_supplier_email),
-                    Toast.LENGTH_SHORT).show();
-            return;
-        } else if (imageUriString == null) {
-            Toast.makeText(getApplicationContext(),
-                    getString(R.string.message_no_image),
                     Toast.LENGTH_SHORT).show();
             return;
         } else {

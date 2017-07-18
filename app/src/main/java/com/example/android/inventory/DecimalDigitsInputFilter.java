@@ -34,7 +34,6 @@ public class DecimalDigitsInputFilter implements InputFilter {
                                int dstart,
                                int dend) {
 
-
         int dotPos = -1;
         int len = dest.length();
         for (int i = 0; i < len; i++) {
@@ -47,8 +46,7 @@ public class DecimalDigitsInputFilter implements InputFilter {
         if (dotPos >= 0) {
 
             // protects against many dots
-            if (source.equals(".") || source.equals(","))
-            {
+            if (source.equals(".") || source.equals(",")) {
                 return "";
             }
             // if the text is entered before the dot
@@ -62,5 +60,4 @@ public class DecimalDigitsInputFilter implements InputFilter {
 
         return null;
     }
-
 }

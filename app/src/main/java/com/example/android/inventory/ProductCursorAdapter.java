@@ -32,7 +32,6 @@ public class ProductCursorAdapter extends CursorAdapter {
         super(context, c, 0);
     }
 
-
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
         return LayoutInflater.from(context).inflate(R.layout.list_item, parent, false);
@@ -68,7 +67,7 @@ public class ProductCursorAdapter extends CursorAdapter {
         saleButton.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (quantity > 0){
+                if (quantity > 0) {
                     ContentValues values = new ContentValues();
 
                     values.put(COLUMN_PRODUCT_QUANTITY, quantity - 1);
@@ -77,7 +76,7 @@ public class ProductCursorAdapter extends CursorAdapter {
 
                     context.getContentResolver().update(currentProductUri, values, null, null);
                     context.getContentResolver().notifyChange(CONTENT_URI, null);
-                }else{
+                } else {
                     Toast.makeText(context, "" + R.string.message_out_of_stock, Toast.LENGTH_SHORT).show();
                 }
             }

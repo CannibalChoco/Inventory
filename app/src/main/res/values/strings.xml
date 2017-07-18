@@ -7,10 +7,10 @@
 
     <!-- Label for price in CatalogActivity -->
     <string name="list_item_price_label">Price: </string>
-    
+
     <!-- Label for quantity in CatalogActivity -->
     <string name="list_item_quantity_label">In stock: </string>
-    
+
     <!-- Label for product name in Editor-->
     <string name="name">Name</string>
 

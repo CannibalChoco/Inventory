@@ -3,7 +3,6 @@ package com.example.android.inventory.data;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import com.example.android.inventory.data.ProductContract.ProductEntry;
 
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_IMAGE;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_NAME;
@@ -16,16 +15,19 @@ import static com.example.android.inventory.data.ProductContract.ProductEntry._I
 
 public class ProductDbHelper extends SQLiteOpenHelper {
 
-    /** if the schema is changed, DATABASE_VERSION must be incremented */
+    /**
+     * if the schema is changed, DATABASE_VERSION must be incremented
+     */
     private static final int DATABASE_VERSION = 1;
 
-    /** name of the database file */
+    /**
+     * name of the database file
+     */
     private static final String DATABASE_NAME = "inventory.db";
 
     public ProductDbHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
-
 
     /**
      * Called when the db is created for the first time

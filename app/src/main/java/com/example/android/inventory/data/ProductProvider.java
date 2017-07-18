@@ -28,7 +28,9 @@ public class ProductProvider extends ContentProvider {
     /* db helper object*/
     private ProductDbHelper dbHelper;
 
-    /** Tag for the log messages */
+    /**
+     * Tag for the log messages
+     */
     public static final String LOG_TAG = ProductProvider.class.getSimpleName();
 
     /**
@@ -79,7 +81,7 @@ public class ProductProvider extends ContentProvider {
                 break;
             case PRODUCT_ID:
                 selection = _ID + "=?";
-                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
 
                 cursor = database.query(TABLE_NAME, projection, selection, selectionArgs,
                         null, null, sortOrder);
@@ -98,7 +100,6 @@ public class ProductProvider extends ContentProvider {
         return cursor;
     }
 
-
     @Override
     public String getType(Uri uri) {
         final int match = sUriMatcher.match(uri);
@@ -111,7 +112,6 @@ public class ProductProvider extends ContentProvider {
                 throw new IllegalStateException("Unknown URI " + uri + " with match " + match);
         }
     }
-
 
     @Override
     public Uri insert(Uri uri, ContentValues values) {
@@ -139,14 +139,14 @@ public class ProductProvider extends ContentProvider {
             case PRODUCT_ID:
                 // Delete a single row given by the ID in the URI
                 selection = _ID + "=?";
-                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 rowsDeleted = database.delete(TABLE_NAME, selection, selectionArgs);
                 break;
             default:
                 throw new IllegalArgumentException("Deletion is not supported for " + uri);
         }
 
-        if(rowsDeleted != 0){
+        if (rowsDeleted != 0) {
             getContext().getContentResolver().notifyChange(uri, null);
         }
 
@@ -164,7 +164,7 @@ public class ProductProvider extends ContentProvider {
                 // so we know which row to update. Selection will be "_id=?" and selection
                 // arguments will be a String array containing the actual ID.
                 selection = _ID + "=?";
-                selectionArgs = new String[] { String.valueOf(ContentUris.parseId(uri)) };
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 return updateProduct(uri, values, selection, selectionArgs);
             default:
                 throw new IllegalArgumentException("Update is not supported for " + uri);
@@ -197,7 +197,7 @@ public class ProductProvider extends ContentProvider {
 
         long id = db.insert(TABLE_NAME, null, values);
 
-        if (id == -1){
+        if (id == -1) {
             Toast.makeText(getContext(), R.string.message_product_not_saved, Toast.LENGTH_SHORT)
                     .show();
             return null;
@@ -219,7 +219,7 @@ public class ProductProvider extends ContentProvider {
             return 0;
         }
 
-        if (values.containsKey(COLUMN_PRODUCT_NAME)){
+        if (values.containsKey(COLUMN_PRODUCT_NAME)) {
             String name = values.getAsString(COLUMN_PRODUCT_NAME);
             if (name == null) {
                 throw new IllegalArgumentException("Product requires a name");
@@ -233,7 +233,7 @@ public class ProductProvider extends ContentProvider {
             }
         }
 
-        if (values.containsKey(COLUMN_PRODUCT_QUANTITY)){
+        if (values.containsKey(COLUMN_PRODUCT_QUANTITY)) {
             Integer quantity = values.getAsInteger(COLUMN_PRODUCT_QUANTITY);
             if (quantity == null || !isValidQuantity(quantity)) {
                 throw new IllegalArgumentException("Product requires a valid quantity");
@@ -243,7 +243,7 @@ public class ProductProvider extends ContentProvider {
         SQLiteDatabase db = dbHelper.getWritableDatabase();
         int rowsUpdated = db.update(TABLE_NAME, values, selection, selectionArgs);
 
-        if(rowsUpdated != 0){
+        if (rowsUpdated != 0) {
             getContext().getContentResolver().notifyChange(uri, null);
         }
 

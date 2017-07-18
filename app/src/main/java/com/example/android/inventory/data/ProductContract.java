@@ -5,12 +5,10 @@ import android.content.ContentResolver;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
-import static android.text.style.TtsSpan.GENDER_FEMALE;
-import static android.text.style.TtsSpan.GENDER_MALE;
-
 public class ProductContract {
 
-    private ProductContract(){}
+    private ProductContract() {
+    }
 
     /**
      * CONTENT_AUTHORITY is the name for the entire content provider
@@ -30,7 +28,7 @@ public class ProductContract {
     /**
      * Inner Class that defines constants for the product DB table
      */
-    public static abstract class ProductEntry implements BaseColumns{
+    public static abstract class ProductEntry implements BaseColumns {
         /**
          * The content URI to access the product data in the provider
          */
@@ -55,45 +53,45 @@ public class ProductContract {
 
         /**
          * Unique ID number for the product (only for use in the database table).
-         *
+         * <p>
          * Type: INTEGER
          */
         public static final String _ID = BaseColumns._ID;
 
         /**
          * Name of the product.
-         *
+         * <p>
          * Type: TEXT
          */
-        public static final String COLUMN_PRODUCT_NAME= "name";
+        public static final String COLUMN_PRODUCT_NAME = "name";
 
         /**
          * Price of the product.
-         *
+         * <p>
          * Type: INTEGER
          */
-        public static final String COLUMN_PRODUCT_PRICE= "price";
+        public static final String COLUMN_PRODUCT_PRICE = "price";
 
         /**
          * Quantity of the product.
-         *
+         * <p>
          * Type: INTEGER
          */
-        public static final String COLUMN_PRODUCT_QUANTITY= "quantity";
+        public static final String COLUMN_PRODUCT_QUANTITY = "quantity";
 
         /**
          * Image of the product.Product suppliers email
-         *
+         * <p>
          * Type: STRING
          */
-        public static final String COLUMN_PRODUCT_SUPPLIER_EMAIL= "supplier";
+        public static final String COLUMN_PRODUCT_SUPPLIER_EMAIL = "supplier";
 
         /**
          * Image of the product.
-         *
+         * <p>
          * Type: BLOB
          */
-        public static final String COLUMN_PRODUCT_IMAGE= "image";
+        public static final String COLUMN_PRODUCT_IMAGE = "image";
 
         /**
          * Returns whether or not the given quantity is valid
