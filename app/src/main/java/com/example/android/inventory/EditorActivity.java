@@ -14,7 +14,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.InputFilter;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -28,9 +27,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.android.inventory.data.ProductProvider;
-
-import static android.text.TextUtils.concat;
 import static com.example.android.inventory.R.string.delete;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_IMAGE;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_NAME;
@@ -282,11 +278,9 @@ public class EditorActivity extends AppCompatActivity
                 } else {
                     quantity = 0;
                 }
-                Log.i(LOG_TAG, "TEST quantity = " + quantity);
 
                 String editQuantityString = editQuantityEditText.getText().toString().trim();
                 int editQuantity = Integer.parseInt(editQuantityString);
-                Log.i(LOG_TAG, "TEST editQuantity = " + editQuantity);
 
                 // subtract
                 if (decrementByX && !incrementByX) {
@@ -303,8 +297,6 @@ public class EditorActivity extends AppCompatActivity
                 if (!decrementByX && incrementByX) {
                     quantity += editQuantity;
                 }
-
-                Log.i(LOG_TAG, "TEST final quantity = " + quantity);
 
                 quantityText.setText(String.valueOf(quantity));
             }
@@ -498,8 +490,6 @@ public class EditorActivity extends AppCompatActivity
         String nameString = nameEditText.getText().toString().trim();
         String priceString = priceEditText.getText().toString().trim();
 
-        Log.i(LOG_TAG, "TEST priceString: " + priceString);
-
         String quantityString = quantityText.getText().toString().trim();
         String supplierEmailString = suppliersEmailEditText.getText().toString().trim();
 
@@ -512,39 +502,30 @@ public class EditorActivity extends AppCompatActivity
             Toast.makeText(getApplicationContext(),
                     getString(R.string.message_no_product_name),
                     Toast.LENGTH_LONG).show();
-            Log.i(LOG_TAG, "TEST: " + getString(R.string.message_no_product_name));
             return;
         } else if (TextUtils.isEmpty(priceString)) {
             Toast.makeText(getApplicationContext(),
                     getString(R.string.message_no_product_price),
                     Toast.LENGTH_LONG).show();
-            Log.i(LOG_TAG, "TEST: " + getString(R.string.message_no_product_price));
             return;
         } else if (TextUtils.isEmpty(quantityString)) {
             Toast.makeText(getApplicationContext(),
                     getString(R.string.message_no_product_quantity),
                     Toast.LENGTH_LONG).show();
-            Log.i(LOG_TAG, "TEST: " + getString(R.string.message_no_product_quantity));
             return;
         } else if (TextUtils.isEmpty(supplierEmailString)) {
             Toast.makeText(getApplicationContext(),
                     getString(R.string.message_no_supplier_email),
                     Toast.LENGTH_LONG).show();
-            Log.i(LOG_TAG, "TEST: " + getString(R.string.message_no_supplier_email));
             return;
         } else if (imageUriString == null) {
             Toast.makeText(getApplicationContext(),
                     getString(R.string.message_no_image),
                     Toast.LENGTH_LONG).show();
-            Log.i(LOG_TAG, "TEST: " + getString(R.string.message_no_image));
             return;
         } else {
-
             priceString = formatPriceString(priceString);
-            Log.i(LOG_TAG, "TEST priceString: " + priceString);
-
             Integer price = Integer.parseInt(priceString);
-            Log.i(LOG_TAG, "TEST priceInt: " + price);
 
             int quantity = Integer.parseInt(quantityString);
 

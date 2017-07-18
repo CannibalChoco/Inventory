@@ -4,10 +4,8 @@ import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.v4.widget.CursorAdapter;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,21 +13,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.android.inventory.data.ProductContract;
-import com.example.android.inventory.data.ProductDbHelper;
-import com.example.android.inventory.data.ProductProvider;
 
-import static android.R.attr.data;
-import static android.R.attr.id;
-import static android.R.attr.tabWidgetStyle;
 import static com.example.android.inventory.R.id.quantity;
-import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_IMAGE;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_NAME;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_PRICE;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_QUANTITY;
-import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_SUPPLIER_EMAIL;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.CONTENT_URI;
-import static com.example.android.inventory.data.ProductContract.ProductEntry.TABLE_NAME;
 import static com.example.android.inventory.data.ProductContract.ProductEntry._ID;
 
 public class ProductCursorAdapter extends CursorAdapter {

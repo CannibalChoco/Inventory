@@ -7,9 +7,9 @@ import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
-import android.util.Log;
+import android.widget.Toast;
 
-import com.example.android.inventory.data.ProductContract.ProductEntry;
+import com.example.android.inventory.R;
 
 import static com.example.android.inventory.data.ProductContract.CONTENT_AUTHORITY;
 import static com.example.android.inventory.data.ProductContract.PATH_PRODUCTS;
@@ -198,7 +198,8 @@ public class ProductProvider extends ContentProvider {
         long id = db.insert(TABLE_NAME, null, values);
 
         if (id == -1){
-            Log.e(LOG_TAG, "Failed to insert row for " + uri);
+            Toast.makeText(getContext(), R.string.message_product_not_saved, Toast.LENGTH_SHORT)
+                    .show();
             return null;
         }
 

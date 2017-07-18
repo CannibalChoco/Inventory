@@ -2,19 +2,16 @@ package com.example.android.inventory;
 
 import android.app.LoaderManager;
 import android.content.ContentUris;
-import android.content.ContentValues;
 import android.content.CursorLoader;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -48,7 +45,6 @@ public class CatalogActivity extends AppCompatActivity implements
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.v(LOG_TAG, "TEST: launching EditorActivity...");
                 Intent intent = new Intent(CatalogActivity.this, EditorActivity.class);
                 startActivity(intent);
             }
@@ -70,7 +66,6 @@ public class CatalogActivity extends AppCompatActivity implements
         productListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
-                Log.v(LOG_TAG, "TEST: launching EditorActivity...");
                 Intent intent = new Intent(CatalogActivity.this, EditorActivity.class);
 
                 Uri currentProductUri = ContentUris.withAppendedId(CONTENT_URI, id);
