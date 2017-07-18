@@ -188,7 +188,7 @@ public class EditorActivity extends AppCompatActivity
         orderMoreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(supplierEmail != null){
+                if (supplierEmail != null) {
                     orderMore();
                 }
             }
@@ -202,7 +202,7 @@ public class EditorActivity extends AppCompatActivity
             }
         });
 
-        if(currentProductUri == null){
+        if (currentProductUri == null) {
             deleteEntryButton.setVisibility(View.INVISIBLE);
         }
 
@@ -271,66 +271,80 @@ public class EditorActivity extends AppCompatActivity
         updateByX.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int quantity;
-                if (currentProductUri != null) {
-                    String quantityString = quantityText.getText().toString().trim();
-                    quantity = Integer.parseInt(quantityString);
-                } else {
-                    quantity = 0;
-                }
-
-                String editQuantityString = editQuantityEditText.getText().toString().trim();
-                int editQuantity = Integer.parseInt(editQuantityString);
-
-                // subtract
-                if (decrementByX && !incrementByX) {
-                    if (quantity > editQuantity) {
-                        quantity -= editQuantity;
-                    } else {
-                        Toast.makeText(getApplicationContext(),
-                                R.string.message_invalid_amount_to_subtract, Toast.LENGTH_SHORT)
-                                .show();
-                    }
-                }
-
-                // add
-                if (!decrementByX && incrementByX) {
-                    quantity += editQuantity;
-                }
-
-                quantityText.setText(String.valueOf(quantity));
+                editQuantityBy();
             }
         });
+    }
 
+    /**
+     * Helper method to edit the quantity
+     */
+    private void editQuantityBy() {
+        int quantity;
+        if (currentProductUri != null) {
+            String quantityString = quantityText.getText().toString().trim();
+            quantity = Integer.parseInt(quantityString);
+        } else {
+            quantity = 0;
+        }
+
+        String editQuantityString = editQuantityEditText.getText().toString().trim();
+        if (TextUtils.isEmpty(editQuantityString) && quantity == 0) {
+            Toast.makeText(getApplicationContext(),
+                    getString(R.string.message_no_product_quantity),
+                    Toast.LENGTH_SHORT).show();
+        }else{
+            int editQuantity = Integer.parseInt(editQuantityString);
+
+            // subtract
+            if (decrementByX && !incrementByX) {
+                if (quantity > editQuantity) {
+                    quantity -= editQuantity;
+                } else {
+                    Toast.makeText(getApplicationContext(),
+                            R.string.message_invalid_amount_to_subtract, Toast.LENGTH_SHORT)
+                            .show();
+                }
+            }
+
+            // add
+            if (!decrementByX && incrementByX) {
+                quantity += editQuantity;
+            }
+
+            quantityText.setText(String.valueOf(quantity));
+
+        }
     }
 
     /**
      * Helper method to format the price string so it can be converted to int correctly
      */
-    private String formatPriceString (String priceString){
+
+    private String formatPriceString(String priceString) {
         if (priceString.contains(",")) {
             priceString = priceString.replace(",", ".");
         }
 
-        if(priceString.contains(".")){
+        if (priceString.contains(".")) {
             int integerPlaces = priceString.indexOf(".");
 
-            if (integerPlaces == 0){
+            if (integerPlaces == 0) {
                 return priceString.replace(".", "");
             }
 
             int decimalPlaces = priceString.length() - integerPlaces - 1;
 
             // if there is only one decimal plac, add one
-            if(decimalPlaces == 1){
+            if (decimalPlaces == 1) {
                 return priceString.concat("0").replace(".", "");
-            }else{
+            } else {
                 // if there are too many, crop it
-                return  priceString.substring(0, integerPlaces + 2).replace(".", "");
+                return priceString.substring(0, integerPlaces + 2).replace(".", "");
             }
-        }else{
+        } else {
             // if there are no decimal places, add two
-            return  priceString.concat("00");
+            return priceString.concat("00");
         }
     }
 
