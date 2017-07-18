@@ -6,6 +6,9 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+
+        <!-- Background color of buttons in the app -->
+        <item name="colorButtonNormal">@color/colorButtons</item>
     </style>
 
 </resources>

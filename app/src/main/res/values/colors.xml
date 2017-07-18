@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#544254</color>
+    <color name="colorPrimaryDark">#2b1b2b</color>
+    <color name="colorAccent">#420eb2</color>
+
+    <!-- custom button color -->
+    <color name="colorButtons">#ccc2cc</color>
+
+    <!-- custom white FAB background tint color -->
+    <color name="colorFabBackgroundTint">#FFFFFF</color>
 
     <!-- default text color -->
     <color name="color_default_text">#2B3D4D</color>

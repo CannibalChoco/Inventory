@@ -42,9 +42,6 @@
     <string name="increment">+</string>
 
     <!-- Menu options in Catalog -->
-    <string name="action_insert_dummy_data">Insert dummy data</string>
-
-    <!-- Menu options in Catalog -->
     <string name="action_delete_all_entries">Delete all entries</string>
 
     <!-- Label for editor menu option to save product and leave editor [CHAR LIMIT=20] -->
@@ -88,9 +85,6 @@
 
     <!-- Message shown when user tries to save product, but hasn't provided an image -->
     <string name="message_no_image">To save product, choose an image for the product</string>
-
-    <!-- Email message template for ordering more products -->
-    <string name="message_order_more">Hello! I would like to order </string>
 
     <!-- Message for when the product is out of stock and user presses Sale Button -->
     <string name="message_out_of_stock">Out of stock. Can\'t make a sale</string>
@@ -137,5 +131,16 @@
     <!-- Label for Delete Button -->
     <string name="button_delete">Delete product</string>
 
+    <!-- Email message template for ordering more products -->
+    <string name="email_order_more">Hello! I would like to order </string>
+
+    <!-- Message in CatalogActivity when the database is empty -->
+    <string name="empty_state_text_view">There are no products added to the database yet</string>
+
+    <!-- Instructions on how to populate empty database -->
+    <string name="empty_state_text_view_instructions">To add an item to the database, click the add icon</string>
+
+    <!-- Instructions on how to add an image -->
+    <string name="no_image_text_view">Click here to add an image</string>
 
 </resources>

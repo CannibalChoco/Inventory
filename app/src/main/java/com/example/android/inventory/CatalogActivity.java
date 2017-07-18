@@ -20,12 +20,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_NAME;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_PRICE;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_QUANTITY;
 
-import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_SUPPLIER_EMAIL;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.CONTENT_URI;
 import static com.example.android.inventory.data.ProductContract.ProductEntry._ID;
 
@@ -55,9 +55,14 @@ public class CatalogActivity extends AppCompatActivity implements
         });
 
         ListView productListView = (ListView) findViewById(R.id.list);
-
         View emptyView = findViewById(R.id.empty_view);
         productListView.setEmptyView(emptyView);
+
+        // set empty views text views
+        TextView emptyViewTitle = (TextView) findViewById(R.id.empty_title_text);
+        emptyViewTitle.setText(R.string.empty_state_text_view);
+        TextView emptyViewInstructions = (TextView) findViewById(R.id.empty_subtitle_text);
+        emptyViewInstructions.setText(R.string.empty_state_text_view_instructions);
 
         adapter = new ProductCursorAdapter(this, null);
         productListView.setAdapter(adapter);

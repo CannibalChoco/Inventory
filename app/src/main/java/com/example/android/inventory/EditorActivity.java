@@ -108,6 +108,10 @@ public class EditorActivity extends AppCompatActivity
      */
     private EditText updateByX;
 
+    /**
+     * TextView for when there is no image added
+     */
+    private TextView noImageTextView;
 
     /**
      * Edit quantity variables to track users choice
@@ -186,6 +190,9 @@ public class EditorActivity extends AppCompatActivity
         orderMoreButton.setText(R.string.button_order_more);
         deleteEntryButton.setText(R.string.button_delete);
 
+        noImageTextView = (TextView) findViewById(R.id.no_image_text);
+        noImageTextView.setText(R.string.no_image_text_view);
+
         orderMoreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -237,8 +244,13 @@ public class EditorActivity extends AppCompatActivity
             public void onClick(View v) {
                 productHasChanged = true;
 
+                int quantity;
                 String quantityString = quantityText.getText().toString().trim();
-                int quantity = Integer.parseInt(quantityString);
+                if (TextUtils.isEmpty(quantityString)){
+                    quantity = 0;
+                }else{
+                    quantity = Integer.parseInt(quantityString);
+                }
                 quantity++;
 
                 quantityText.setText(String.valueOf(quantity));
@@ -302,7 +314,7 @@ public class EditorActivity extends AppCompatActivity
      * Helper method to order more products.
      */
     private void orderMore() {
-        String messageTemplate = getString(R.string.message_order_more);
+        String messageTemplate = getString(R.string.email_order_more);
 
         Intent intent = new Intent(Intent.ACTION_SENDTO);
         intent.setData(Uri.parse("mailto:" + supplierEmail));
@@ -322,6 +334,8 @@ public class EditorActivity extends AppCompatActivity
             Uri imageUri = data.getData();
             productsImageView.setImageURI(imageUri);
             imageUriString = imageUri.toString();
+            productHasChanged = true;
+            noImageTextView.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -585,6 +599,8 @@ public class EditorActivity extends AppCompatActivity
             suppliersEmailEditText.setText(supplierEmail);
             productsImageView.setImageURI(imageUri);
         }
+
+        noImageTextView.setVisibility(View.INVISIBLE);
     }
 
     @Override

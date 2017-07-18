@@ -31,8 +31,6 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:fontFamily="sans-serif-medium"
-            android:paddingTop="16dp"
-            android:text="empty view text"
             android:textAppearance="?android:textAppearanceMedium"/>
 
         <TextView
@@ -42,10 +40,8 @@
             android:layout_below="@+id/empty_title_text"
             android:layout_centerHorizontal="true"
             android:fontFamily="sans-serif"
-            android:paddingTop="8dp"
-            android:text="empty view subtitle text"
-            android:textAppearance="?android:textAppearanceSmall"
-            android:textColor="#A2AAB0"/>
+            android:paddingTop="16dp"
+            android:textAppearance="?android:textAppearanceSmall"/>
     </RelativeLayout>
 
     <ListView
@@ -60,5 +56,5 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_margin="@dimen/fab_margin"
-        android:src="@android:drawable/ic_input_add"/>
+        android:src="@drawable/ic_plus"/>
 </RelativeLayout>
