@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#544254</color>
     <color name="colorPrimaryDark">#2b1b2b</color>
-    <color name="colorAccent">#420eb2</color>
+    <color name="colorAccent">#6200EA</color>
 
     <!-- custom button color -->
     <color name="colorButtons">#ccc2cc</color>

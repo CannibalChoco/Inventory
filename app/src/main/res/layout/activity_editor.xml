@@ -11,25 +11,14 @@
         android:padding="@dimen/activity_margin"
         tools:context=".EditorActivity">
 
-        <LinearLayout
+        <!-- Order More button -->
+        <Button
+            android:id="@+id/order_more"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/activity_margin">
+            android:layout_marginBottom="@dimen/activity_margin"
+            android:layout_height="wrap_content"/>
 
-            <Button
-                android:id="@+id/order_more"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/activity_margin"
-                android:layout_weight="1" />
-
-            <Button
-                android:id="@+id/delete_entry"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-        </LinearLayout>
-
+        <!-- ImageView category -->
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -42,10 +31,9 @@
 
             <TextView
                 android:id="@+id/no_image_text"
-                android:layout_centerInParent="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                />
+                android:layout_centerInParent="true" />
         </RelativeLayout>
 
 
@@ -70,8 +58,8 @@
                 android:layout_weight="2"
                 android:hint="@string/name"
                 android:inputType="textNoSuggestions"
-                android:textColor="@color/color_default_text"
-                android:paddingLeft="4dp" />
+                android:paddingLeft="4dp"
+                android:textColor="@color/color_default_text" />
         </LinearLayout>
 
         <!-- Price category -->
@@ -95,8 +83,8 @@
                 android:layout_weight="2"
                 android:hint="@string/price"
                 android:inputType="numberDecimal"
-                android:textColor="@color/color_default_text"
-                android:paddingLeft="4dp" />
+                android:paddingLeft="4dp"
+                android:textColor="@color/color_default_text" />
         </LinearLayout>
 
         <!-- Quantity category -->
@@ -211,8 +199,15 @@
                 android:layout_weight="2"
                 android:hint="@string/supplier_email_hint"
                 android:inputType="textEmailAddress"
-                android:textColor="@color/color_default_text"
-                android:paddingLeft="4dp" />
+                android:paddingLeft="4dp"
+                android:textColor="@color/color_default_text" />
         </LinearLayout>
+
+        <Button
+            android:id="@+id/delete_entry"
+            android:layout_width="match_parent"
+            android:layout_marginTop="@dimen/activity_margin"
+            android:layout_height="wrap_content" />
     </LinearLayout>
+
 </ScrollView>

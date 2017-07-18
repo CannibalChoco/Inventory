@@ -1,48 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/name"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-medium"
-        android:gravity="left"
-        android:text="suitcase"
-        android:textAppearance="?android:textAppearanceMedium"
-        android:textColor="@color/color_default_text" />
+        android:layout_marginLeft="@dimen/activity_margin"
+        android:layout_marginRight="@dimen/activity_margin"
+        android:layout_marginTop="@dimen/activity_margin_small">
 
-    <TextView
-        android:id="@+id/price"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:fontFamily="sans-serif-medium"
-        android:text="89.99"
-        android:textAppearance="?android:textAppearanceMedium"
-        android:textColor="@color/color_default_text" />
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:fontFamily="sans-serif-medium"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="suitcase"
+            android:textAppearance="?android:textAppearanceLarge"
+            android:textColor="@color/color_default_text" />
 
-    <TextView
-        android:id="@+id/quantity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/name"
-        android:fontFamily="sans-serif-medium"
-        android:textAppearance="?android:textAppearanceMedium"
-        android:text="Quantity: 6"
-        android:textColor="@color/color_default_text" />
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/activity_margin"
+            android:layout_weight="1"
+            android:fontFamily="sans-serif-medium"
+            android:gravity="right"
+            android:text="89.99"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textColor="@color/color_default_text" />
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/sale"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/price"
-        android:fontFamily="sans-serif-medium"
-        android:text="@string/list_item_sale_button"
-        android:textAppearance="?android:textAppearanceMedium"
-        android:textColor="@color/color_default_text"
-        android:focusable="false"/>
-</RelativeLayout>
+        android:layout_marginLeft="@dimen/activity_margin"
+        android:layout_marginRight="@dimen/activity_margin">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/catalog_in_stock"
+            android:layout_marginRight="@dimen/activity_margin_small"
+            android:textAppearance="?android:textAppearanceSmall" />
+
+        <TextView
+            android:id="@+id/quantity"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:fontFamily="sans-serif-medium"
+            android:text="6"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textColor="@color/color_default_text" />
+
+        <Button
+            android:id="@+id/sale"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:focusable="false"
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/list_item_sale_button"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textColor="@color/color_default_text" />
+    </LinearLayout>
+
+
+</LinearLayout>

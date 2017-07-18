@@ -67,8 +67,12 @@ public class ProductCursorAdapter extends CursorAdapter {
         double price = cursor.getInt(priceColumnIndex) / 100.00;
         final int quantity = cursor.getInt(quantityColumnIndex);
 
-        priceTextView.setText(String.format("%.2f", price));
+        // format how price is displayed
+        String decimalPriceString = String.format("%.2f", price);
+        String formattedPriceString = "$".concat(decimalPriceString);
+        priceTextView.setText(formattedPriceString);
         nameTextView.setText(name);
+
         quantityTextView.setText(String.valueOf(quantity));
 
         Button saleButton = (Button) view.findViewById(R.id.sale);

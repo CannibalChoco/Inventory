@@ -30,6 +30,7 @@ import android.widget.Toast;
 
 import com.example.android.inventory.data.ProductProvider;
 
+import static android.text.TextUtils.concat;
 import static com.example.android.inventory.R.string.delete;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_IMAGE;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_NAME;
@@ -188,17 +189,30 @@ public class EditorActivity extends AppCompatActivity
         suppliersEmailEditText = (EditText) findViewById(R.id.edit_product_supplier);
 
         orderMoreButton.setText(R.string.button_order_more);
-        deleteEntryButton.setText(R.string.button_delete);
-
-        noImageTextView = (TextView) findViewById(R.id.no_image_text);
-        noImageTextView.setText(R.string.no_image_text_view);
-
         orderMoreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                orderMore();
+                if(supplierEmail != null){
+                    orderMore();
+                }
             }
         });
+
+        deleteEntryButton.setText(R.string.button_delete);
+        deleteEntryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDeleteConfirmationDialog();
+            }
+        });
+
+        if(currentProductUri == null){
+            deleteEntryButton.setVisibility(View.INVISIBLE);
+        }
+
+
+        noImageTextView = (TextView) findViewById(R.id.no_image_text);
+        noImageTextView.setText(R.string.no_image_text_view);
 
         deleteEntryButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -246,9 +260,9 @@ public class EditorActivity extends AppCompatActivity
 
                 int quantity;
                 String quantityString = quantityText.getText().toString().trim();
-                if (TextUtils.isEmpty(quantityString)){
+                if (TextUtils.isEmpty(quantityString)) {
                     quantity = 0;
-                }else{
+                } else {
                     quantity = Integer.parseInt(quantityString);
                 }
                 quantity++;
@@ -297,6 +311,37 @@ public class EditorActivity extends AppCompatActivity
         });
 
     }
+
+    /**
+     * Helper method to format the price string so it can be converted to int correctly
+     */
+    private String formatPriceString (String priceString){
+        if (priceString.contains(",")) {
+            priceString = priceString.replace(",", ".");
+        }
+
+        if(priceString.contains(".")){
+            int integerPlaces = priceString.indexOf(".");
+
+            if (integerPlaces == 0){
+                return priceString.replace(".", "");
+            }
+
+            int decimalPlaces = priceString.length() - integerPlaces - 1;
+
+            // if there is only one decimal plac, add one
+            if(decimalPlaces == 1){
+                return priceString.concat("0").replace(".", "");
+            }else{
+                // if there are too many, crop it
+                return  priceString.substring(0, integerPlaces + 2).replace(".", "");
+            }
+        }else{
+            // if there are no decimal places, add two
+            return  priceString.concat("00");
+        }
+    }
+
 
     /**
      * Helper method to select image from gallery.
@@ -495,17 +540,7 @@ public class EditorActivity extends AppCompatActivity
             return;
         } else {
 
-            if(!priceString.contains(",") || !priceString.contains(".")){
-                priceString.concat("00");
-            }
-
-            if (priceString.contains(".")) {
-                priceString = priceString.replace(".", "");
-            }
-
-            if (priceString.contains(",")) {
-                priceString = priceString.replace(",", "");
-            }
+            priceString = formatPriceString(priceString);
             Log.i(LOG_TAG, "TEST priceString: " + priceString);
 
             Integer price = Integer.parseInt(priceString);

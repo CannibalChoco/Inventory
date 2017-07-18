@@ -135,12 +135,15 @@
     <string name="email_order_more">Hello! I would like to order </string>
 
     <!-- Message in CatalogActivity when the database is empty -->
-    <string name="empty_state_text_view">There are no products added to the database yet</string>
+    <string name="empty_state_text_view">There are no products added yet</string>
 
     <!-- Instructions on how to populate empty database -->
-    <string name="empty_state_text_view_instructions">To add an item to the database, click the add icon</string>
+    <string name="empty_state_text_view_instructions">To add an item , click the add icon</string>
 
     <!-- Instructions on how to add an image -->
     <string name="no_image_text_view">Click here to add an image</string>
+
+    <!-- Text for quantity field in CatalogActivity -->
+    <string name="catalog_in_stock">In stock:</string>
 
 </resources>
