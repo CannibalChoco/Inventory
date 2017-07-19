@@ -14,7 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import static com.example.android.inventory.R.id.quantity;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_NAME;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_PRICE;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_QUANTITY;
