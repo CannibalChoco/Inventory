@@ -34,16 +34,18 @@ public class ProductCursorAdapter extends CursorAdapter {
 
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        return LayoutInflater.from(context).inflate(R.layout.list_item, parent, false);
+
+        View view = LayoutInflater.from(context).inflate(R.layout.list_item, parent, false);
+
+        ViewHolder viewHolder = new ViewHolder(view);
+        view.setTag(viewHolder);
+
+        return view;
     }
 
     @Override
     public void bindView(View view, final Context context, final Cursor cursor) {
-        final int position = cursor.getPosition();
-
-        TextView nameTextView = (TextView) view.findViewById(R.id.name);
-        TextView priceTextView = (TextView) view.findViewById(R.id.price);
-        TextView quantityTextView = (TextView) view.findViewById(quantity);
+        ViewHolder viewHolder = (ViewHolder) view.getTag();
 
         int idColIndex = cursor.getColumnIndex(_ID);
         int nameColumnIndex = cursor.getColumnIndex(COLUMN_PRODUCT_NAME);
@@ -58,13 +60,12 @@ public class ProductCursorAdapter extends CursorAdapter {
         // format how price is displayed
         String decimalPriceString = String.format("%.2f", price);
         String formattedPriceString = "$".concat(decimalPriceString);
-        priceTextView.setText(formattedPriceString);
-        nameTextView.setText(name);
+        viewHolder.priceTextView.setText(formattedPriceString);
+        viewHolder.nameTextView.setText(name);
 
-        quantityTextView.setText(String.valueOf(quantity));
+        viewHolder.quantityTextView.setText(String.valueOf(quantity));
 
-        Button saleButton = (Button) view.findViewById(R.id.sale);
-        saleButton.setOnClickListener(new Button.OnClickListener() {
+        viewHolder.saleButton.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (quantity > 0) {
@@ -81,5 +82,19 @@ public class ProductCursorAdapter extends CursorAdapter {
                 }
             }
         });
+    }
+
+    static class ViewHolder {
+        TextView nameTextView;
+        TextView priceTextView;
+        TextView quantityTextView;
+        Button saleButton;
+
+        public  ViewHolder(View view){
+            nameTextView = (TextView) view.findViewById(R.id.name);
+            priceTextView = (TextView) view.findViewById(R.id.price);
+            quantityTextView = (TextView) view.findViewById(quantity);
+            saleButton = (Button) view.findViewById(R.id.sale);
+        }
     }
 }
