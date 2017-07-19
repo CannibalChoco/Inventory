@@ -27,7 +27,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import static android.R.id.edit;
 import static com.example.android.inventory.R.string.delete;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_IMAGE;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_NAME;
@@ -37,8 +36,6 @@ import static com.example.android.inventory.data.ProductContract.ProductEntry.CO
 import static com.example.android.inventory.data.ProductContract.ProductEntry.CONTENT_URI;
 import static com.example.android.inventory.data.ProductContract.ProductEntry._ID;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
 
 public class EditorActivity extends AppCompatActivity
         implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -51,62 +48,67 @@ public class EditorActivity extends AppCompatActivity
     /**
      * Button to delete the product entry
      */
-    @BindView(R.id.delete_entry) Button deleteEntryButton;
+    private Button deleteEntryButton;
 
     /**
      * Button to open email to order more
      */
-    @BindView(R.id.order_more) Button orderMoreButton;
+    private Button orderMoreButton;
 
     /**
      * ImageView field upload or display products image
      */
-    @BindView(R.id.image) ImageView productsImageView;
+    private ImageView productsImageView;
 
     /**
      * EditText field to enter the products name
      */
-    @BindView(R.id.edit_product_name) EditText nameEditText;
+    private EditText nameEditText;
 
     /**
      * EditText field to enter the products price
      */
-    @BindView(R.id.edit_product_price) EditText priceEditText;
+    private EditText priceEditText;
 
     /**
-     * TextView field that displays quantity
+     * TextView field to enter the products quantity
      */
-    @BindView(R.id.edit_product_quantity_by_one) TextView quantityText;
+    private TextView quantityText;
 
     /**
      * Spinner to select either to subtract or add to products quantity
      */
-    @BindView(R.id.spinner_edit_quantity) Spinner editQuantitySpinner;
+    private Spinner editQuantitySpinner;
 
     /**
      * EditText field to enter amount by which to edit the quantity
      */
-    @BindView(R.id.edit_product_quantity_by) EditText editQuantityEditText;
+    private EditText editQuantityEditText;
 
     /**
      * EditText field to enter the suppliers email
      */
-    @BindView(R.id.edit_product_supplier) EditText suppliersEmailEditText;
+    private EditText suppliersEmailEditText;
 
     /**
      * Decrement product quantity by one
      */
-    @BindView(R.id.decrement_by_one) Button decrementByOne;
+    private Button decrementByOne;
 
     /**
      * Increment product quantity by one
      */
-    @BindView(R.id.increment_by_one) Button incrementByOne;
+    private Button incrementByOne;
+
+    /**
+     * Update product quantity by x amount
+     */
+    private EditText updateByX;
 
     /**
      * TextView for when there is no image added
      */
-    @BindView(R.id.no_image_text) TextView noImageTextView;
+    private TextView noImageTextView;
 
     /**
      * Edit quantity variables to track users choice
@@ -161,7 +163,6 @@ public class EditorActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
-        ButterKnife.bind(this);
 
         currentProductUri = getIntent().getData();
         if (currentProductUri == null) {
@@ -172,8 +173,16 @@ public class EditorActivity extends AppCompatActivity
             getLoaderManager().initLoader(PRODUCT_LOADER, null, this);
         }
 
-        // allow no more than two decimal digits
+        deleteEntryButton = (Button) findViewById(R.id.delete_entry);
+        orderMoreButton = (Button) findViewById(R.id.order_more);
+        productsImageView = (ImageView) findViewById(R.id.image);
+        nameEditText = (EditText) findViewById(R.id.edit_product_name);
+        priceEditText = (EditText) findViewById(R.id.edit_product_price);
         priceEditText.setFilters(new InputFilter[]{new DecimalDigitsInputFilter(2)});
+        quantityText = (TextView) findViewById(R.id.edit_product_quantity_by_one);
+        editQuantityEditText = (EditText) findViewById(R.id.edit_product_quantity_by);
+        editQuantitySpinner = (Spinner) findViewById(R.id.spinner_edit_quantity);
+        suppliersEmailEditText = (EditText) findViewById(R.id.edit_product_supplier);
 
         orderMoreButton.setText(R.string.button_order_more);
         orderMoreButton.setOnClickListener(new View.OnClickListener() {
@@ -197,6 +206,7 @@ public class EditorActivity extends AppCompatActivity
             deleteEntryButton.setVisibility(View.INVISIBLE);
         }
 
+        noImageTextView = (TextView) findViewById(R.id.no_image_text);
         noImageTextView.setText(R.string.no_image_text_view);
 
         deleteEntryButton.setOnClickListener(new View.OnClickListener() {
@@ -219,13 +229,20 @@ public class EditorActivity extends AppCompatActivity
             }
         });
 
+        decrementByOne = (Button) findViewById(R.id.decrement_by_one);
         decrementByOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 productHasChanged = true;
 
-                String quantityString = quantityText.getText().toString().trim();
-                int quantity = Integer.parseInt(quantityString);
+                int quantity;
+                if (currentProductUri != null) {
+                    String quantityString = quantityText.getText().toString().trim();
+                    quantity = Integer.parseInt(quantityString);
+                } else {
+                    quantity = 0;
+                }
+
                 if (quantity > 0) {
                     quantity--;
                 }
@@ -234,6 +251,7 @@ public class EditorActivity extends AppCompatActivity
             }
         });
 
+        incrementByOne = (Button) findViewById(R.id.increment_by_one);
         incrementByOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -252,7 +270,8 @@ public class EditorActivity extends AppCompatActivity
             }
         });
 
-        editQuantityEditText.setOnClickListener(new View.OnClickListener() {
+        updateByX = (EditText) findViewById(R.id.edit_product_quantity_by);
+        updateByX.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 editQuantityBy();
@@ -624,7 +643,6 @@ public class EditorActivity extends AppCompatActivity
         priceEditText.setText("");
         quantityText.setText("0");
         suppliersEmailEditText.setText("");
-        productsImageView.setImageURI(null);
     }
 
     private void showUnsavedChangesDialog(
