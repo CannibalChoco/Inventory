@@ -98,7 +98,7 @@
 
                 <!-- Quantity field -->
                 <TextView
-                    android:id="@+id/edit_product_quantity"
+                    android:id="@+id/edit_product_quantity_by_one"
                     style="@style/QuantityTextViewStyle"
                     android:hint="@string/quantity_hint" />
 

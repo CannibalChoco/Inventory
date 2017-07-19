@@ -27,6 +27,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import static android.R.id.edit;
 import static com.example.android.inventory.R.string.delete;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_IMAGE;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_NAME;
@@ -50,67 +51,62 @@ public class EditorActivity extends AppCompatActivity
     /**
      * Button to delete the product entry
      */
-    private @BindView(R.id.delete_entry) Button deleteEntryButton;
+    @BindView(R.id.delete_entry) Button deleteEntryButton;
 
     /**
      * Button to open email to order more
      */
-    private @BindView(R.id.order_more) Button orderMoreButton;
+    @BindView(R.id.order_more) Button orderMoreButton;
 
     /**
      * ImageView field upload or display products image
      */
-    private @BindView(R.id.image) ImageView productsImageView;
+    @BindView(R.id.image) ImageView productsImageView;
 
     /**
      * EditText field to enter the products name
      */
-    private @BindView(R.id.edit_product_name) EditText nameEditText;
+    @BindView(R.id.edit_product_name) EditText nameEditText;
 
     /**
      * EditText field to enter the products price
      */
-    private @BindView(R.id.edit_product_price) EditText priceEditText;
+    @BindView(R.id.edit_product_price) EditText priceEditText;
 
     /**
-     * TextView field to enter the products quantity
+     * TextView field that displays quantity
      */
-    private @BindView(R.id.edit_product_quantity) TextView quantityText;
+    @BindView(R.id.edit_product_quantity_by_one) TextView quantityText;
 
     /**
      * Spinner to select either to subtract or add to products quantity
      */
-    private @BindView(R.id.spinner_edit_quantity) Spinner editQuantitySpinner;
+    @BindView(R.id.spinner_edit_quantity) Spinner editQuantitySpinner;
 
     /**
      * EditText field to enter amount by which to edit the quantity
      */
-    private @BindView(R.id.edit_product_quantity_by) EditText editQuantityEditText;
+    @BindView(R.id.edit_product_quantity_by) EditText editQuantityEditText;
 
     /**
      * EditText field to enter the suppliers email
      */
-    private @BindView(R.id.edit_product_supplier) EditText suppliersEmailEditText;
+    @BindView(R.id.edit_product_supplier) EditText suppliersEmailEditText;
 
     /**
      * Decrement product quantity by one
      */
-    private @BindView(R.id.decrement_by_one) Button decrementByOne;
+    @BindView(R.id.decrement_by_one) Button decrementByOne;
 
     /**
      * Increment product quantity by one
      */
-    private @BindView(R.id.increment_by_one) Button incrementByOne;
-
-    /**
-     * Update product quantity by x amount
-     */
-    private @BindView(R.id.edit_product_quantity_by) EditText updateByX;
+    @BindView(R.id.increment_by_one) Button incrementByOne;
 
     /**
      * TextView for when there is no image added
      */
-    private @BindView(R.id.no_image_text) TextView noImageTextView;
+    @BindView(R.id.no_image_text) TextView noImageTextView;
 
     /**
      * Edit quantity variables to track users choice
@@ -256,7 +252,7 @@ public class EditorActivity extends AppCompatActivity
             }
         });
 
-        updateByX.setOnClickListener(new View.OnClickListener() {
+        editQuantityEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 editQuantityBy();
