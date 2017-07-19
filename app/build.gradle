@@ -1,5 +1,7 @@
 apply plugin: 'com.android.application'
 
+def BUTTER_KNIFE_VERSION="8.7.0" //current version of butterknife
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.2"
@@ -28,4 +30,8 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.android.support:design:25.3.1'
     testCompile 'junit:junit:4.12'
+
+    // butterknife
+    compile "com.jakewharton:butterknife:$BUTTER_KNIFE_VERSION"
+    annotationProcessor "com.jakewharton:butterknife-compiler:$BUTTER_KNIFE_VERSION"
 }

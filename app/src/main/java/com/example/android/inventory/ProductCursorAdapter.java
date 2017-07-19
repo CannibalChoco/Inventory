@@ -21,6 +21,9 @@ import static com.example.android.inventory.data.ProductContract.ProductEntry.CO
 import static com.example.android.inventory.data.ProductContract.ProductEntry.CONTENT_URI;
 import static com.example.android.inventory.data.ProductContract.ProductEntry._ID;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class ProductCursorAdapter extends CursorAdapter {
 
     private String LOG_TAG = ProductCursorAdapter.class.getSimpleName();
@@ -85,16 +88,13 @@ public class ProductCursorAdapter extends CursorAdapter {
     }
 
     static class ViewHolder {
-        TextView nameTextView;
-        TextView priceTextView;
-        TextView quantityTextView;
-        Button saleButton;
+        @BindView(R.id.name) TextView nameTextView;
+        @BindView(R.id.price) TextView priceTextView;
+        @BindView(R.id.quantity) TextView quantityTextView;
+        @BindView(R.id.sale) TextView saleButton;
 
         public  ViewHolder(View view){
-            nameTextView = (TextView) view.findViewById(R.id.name);
-            priceTextView = (TextView) view.findViewById(R.id.price);
-            quantityTextView = (TextView) view.findViewById(quantity);
-            saleButton = (Button) view.findViewById(R.id.sale);
+            ButterKnife.bind(this, view);
         }
     }
 }
