@@ -358,7 +358,13 @@ public class EditorActivity extends AppCompatActivity
      * Code taken form https://developer.android.com/guide/components/intents-common.html#Storage
      */
     private void selectImage() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        Intent intent;
+        if(currentProductUri == null){
+            intent = new Intent(Intent.ACTION_GET_CONTENT);
+        }else {
+            intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        }
+
         intent.setType("image/*");
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(intent, REQUEST_IMAGE_GET);
