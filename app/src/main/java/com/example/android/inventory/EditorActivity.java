@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AlertDialog;
@@ -359,10 +360,10 @@ public class EditorActivity extends AppCompatActivity
      */
     private void selectImage() {
         Intent intent;
-        if(currentProductUri == null){
-            intent = new Intent(Intent.ACTION_GET_CONTENT);
-        }else {
+        if(Build.VERSION.SDK_INT >= 19 ){
             intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        }else {
+            intent = new Intent(Intent.ACTION_GET_CONTENT);
         }
 
         intent.setType("image/*");
