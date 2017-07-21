@@ -19,6 +19,9 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import butterknife.BindView;
+
+import static com.example.android.inventory.R.id.fab;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_NAME;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_PRICE;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_QUANTITY;
@@ -38,12 +41,26 @@ public class CatalogActivity extends AppCompatActivity implements
 
     private int PRODUCT_DB_LOADER = 1;
 
+    @BindView(R.id.fab)
+    FloatingActionButton fab;
+
+    @BindView(R.id.list)
+    ListView productListView;
+
+    @BindView(R.id.empty_view)
+    View emptyView;
+
+    @BindView(R.id.empty_title_text)
+    TextView emptyViewTitle;
+
+    @BindView(R.id.empty_subtitle_text)
+    TextView emptyViewInstructions;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_catalog);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -52,14 +69,10 @@ public class CatalogActivity extends AppCompatActivity implements
             }
         });
 
-        ListView productListView = (ListView) findViewById(R.id.list);
-        View emptyView = findViewById(R.id.empty_view);
         productListView.setEmptyView(emptyView);
 
         // set empty views text views
-        TextView emptyViewTitle = (TextView) findViewById(R.id.empty_title_text);
         emptyViewTitle.setText(R.string.empty_state_text_view);
-        TextView emptyViewInstructions = (TextView) findViewById(R.id.empty_subtitle_text);
         emptyViewInstructions.setText(R.string.empty_state_text_view_instructions);
 
         adapter = new ProductCursorAdapter(this, null);
