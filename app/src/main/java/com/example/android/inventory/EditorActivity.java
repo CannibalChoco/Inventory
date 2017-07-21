@@ -117,12 +117,6 @@ public class EditorActivity extends AppCompatActivity
     Button incrementByOne;
 
     /**
-     * Update product quantity by x amount
-     */
-    @BindView(R.id.edit_product_quantity_by)
-    EditText updateByX;
-
-    /**
      * TextView for when there is no image added
      */
     @BindView(R.id.no_image_text)
@@ -278,7 +272,7 @@ public class EditorActivity extends AppCompatActivity
             }
         });
 
-        updateByX.setOnClickListener(new View.OnClickListener() {
+        editQuantityEditText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 editQuantityBy();

@@ -20,6 +20,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 import static com.example.android.inventory.R.id.fab;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_NAME;
@@ -60,6 +61,8 @@ public class CatalogActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_catalog);
+
+        ButterKnife.bind(this);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
