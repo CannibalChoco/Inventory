@@ -28,6 +28,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnTouch;
+
 import static com.example.android.inventory.R.string.delete;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_IMAGE;
 import static com.example.android.inventory.data.ProductContract.ProductEntry.COLUMN_PRODUCT_NAME;
@@ -49,67 +53,80 @@ public class EditorActivity extends AppCompatActivity
     /**
      * Button to delete the product entry
      */
-    private Button deleteEntryButton;
+    @BindView(R.id.delete_entry)
+    Button deleteEntryButton;
 
     /**
      * Button to open email to order more
      */
-    private Button orderMoreButton;
+    @BindView(R.id.order_more)
+    Button orderMoreButton;
 
     /**
      * ImageView field upload or display products image
      */
-    private ImageView productsImageView;
+    @BindView(R.id.image)
+    ImageView productsImageView;
 
     /**
      * EditText field to enter the products name
      */
-    private EditText nameEditText;
+    @BindView(R.id.edit_product_name)
+    EditText nameEditText;
 
     /**
      * EditText field to enter the products price
      */
-    private EditText priceEditText;
+    @BindView(R.id.edit_product_price)
+    EditText priceEditText;
 
     /**
      * TextView field to enter the products quantity
      */
-    private TextView quantityText;
+    @BindView(R.id.quantity_text)
+    TextView quantityText;
 
     /**
      * Spinner to select either to subtract or add to products quantity
      */
-    private Spinner editQuantitySpinner;
+    @BindView(R.id.spinner_edit_quantity)
+    Spinner editQuantitySpinner;
 
     /**
      * EditText field to enter amount by which to edit the quantity
      */
-    private EditText editQuantityEditText;
+    @BindView(R.id.edit_product_quantity_by)
+    EditText editQuantityEditText;
 
     /**
      * EditText field to enter the suppliers email
      */
-    private EditText suppliersEmailEditText;
+    @BindView(R.id.edit_product_supplier)
+    EditText suppliersEmailEditText;
 
     /**
      * Decrement product quantity by one
      */
-    private Button decrementByOne;
+    @BindView(R.id.decrement_by_one)
+    Button decrementByOne;
 
     /**
      * Increment product quantity by one
      */
-    private Button incrementByOne;
+    @BindView(R.id.increment_by_one)
+    Button incrementByOne;
 
     /**
      * Update product quantity by x amount
      */
-    private EditText updateByX;
+    @BindView(R.id.edit_product_quantity_by)
+    EditText updateByX;
 
     /**
      * TextView for when there is no image added
      */
-    private TextView noImageTextView;
+    @BindView(R.id.no_image_text)
+    TextView noImageTextView;
 
     /**
      * Edit quantity variables to track users choice
@@ -165,6 +182,8 @@ public class EditorActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editor);
 
+        ButterKnife.bind(this);
+
         currentProductUri = getIntent().getData();
         if (currentProductUri == null) {
             setTitle(R.string.editor_activity_title_add_product);
@@ -174,16 +193,7 @@ public class EditorActivity extends AppCompatActivity
             getLoaderManager().initLoader(PRODUCT_LOADER, null, this);
         }
 
-        deleteEntryButton = (Button) findViewById(R.id.delete_entry);
-        orderMoreButton = (Button) findViewById(R.id.order_more);
-        productsImageView = (ImageView) findViewById(R.id.image);
-        nameEditText = (EditText) findViewById(R.id.edit_product_name);
-        priceEditText = (EditText) findViewById(R.id.edit_product_price);
         priceEditText.setFilters(new InputFilter[]{new DecimalDigitsInputFilter(2)});
-        quantityText = (TextView) findViewById(R.id.edit_product_quantity_by_one);
-        editQuantityEditText = (EditText) findViewById(R.id.edit_product_quantity_by);
-        editQuantitySpinner = (Spinner) findViewById(R.id.spinner_edit_quantity);
-        suppliersEmailEditText = (EditText) findViewById(R.id.edit_product_supplier);
 
         orderMoreButton.setText(R.string.button_order_more);
         orderMoreButton.setOnClickListener(new View.OnClickListener() {
@@ -207,7 +217,6 @@ public class EditorActivity extends AppCompatActivity
             deleteEntryButton.setVisibility(View.INVISIBLE);
         }
 
-        noImageTextView = (TextView) findViewById(R.id.no_image_text);
         noImageTextView.setText(R.string.no_image_text_view);
 
         deleteEntryButton.setOnClickListener(new View.OnClickListener() {
@@ -230,7 +239,6 @@ public class EditorActivity extends AppCompatActivity
             }
         });
 
-        decrementByOne = (Button) findViewById(R.id.decrement_by_one);
         decrementByOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -252,7 +260,6 @@ public class EditorActivity extends AppCompatActivity
             }
         });
 
-        incrementByOne = (Button) findViewById(R.id.increment_by_one);
         incrementByOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -271,7 +278,6 @@ public class EditorActivity extends AppCompatActivity
             }
         });
 
-        updateByX = (EditText) findViewById(R.id.edit_product_quantity_by);
         updateByX.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
