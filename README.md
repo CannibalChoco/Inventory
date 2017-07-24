@@ -1,5 +1,7 @@
 # Inventory
-Android Basics by Google Nanodegree Project 10: Inventory App (Data Storage)
+Android Basics by Google Nanodegree Project 10: Inventory App
+
+Data Storage
 
 Goal of the project:
 
